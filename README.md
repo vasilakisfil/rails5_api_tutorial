@@ -36,5 +36,19 @@ $ rails server -b $IP -p $PORT
 
 instead.
 
+To check out the code for a particular chapter, use
+
+```
+$ git checkout chapter-branch-name
+```
+
+where you can find the branch name using
+
+```
+$ git branch -a
+```
+
+A branch called `remotes/orgin/foo-bar` can be checked out using `git checkout foo-bar`.
+
 For more information, see the
 [*Ruby on Rails Tutorial* book](http://www.railstutorial.org/book).
