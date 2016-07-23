@@ -42,3 +42,18 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'pundit'
+gem 'annotate'
+gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
+gem 'active_hash_relation', path: '../active_hash_relation'
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-api_helpers', '0.2.1'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'rspec-json_schema', :git => "git://github.com/blazed/rspec-json_schema.git", :branch => "feature/various_fixes"
+  gem 'pry-rails'
+end
+

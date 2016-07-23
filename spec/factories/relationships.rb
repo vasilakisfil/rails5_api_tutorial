@@ -15,18 +15,9 @@
 #  index_relationships_on_follower_id_and_followed_id  (follower_id,followed_id) UNIQUE
 #
 
-one:
-  follower: michael
-  followed: lana
-
-two:
-  follower: michael
-  followed: malory
-
-three:
-  follower: lana
-  followed: michael
-
-four:
-  follower: archer
-  followed: michael
+FactoryGirl.define do
+  factory :relationship do
+    association :follower, factory: :user
+    association :followed, factory: :user
+  end
+end

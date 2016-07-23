@@ -1,3 +1,27 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                :integer          not null, primary key
+#  activated         :boolean          default(FALSE)
+#  activated_at      :datetime
+#  activation_digest :string
+#  admin             :boolean          default(FALSE)
+#  email             :string
+#  name              :string
+#  password_digest   :string
+#  remember_digest   :string
+#  reset_digest      :string
+#  reset_sent_at     :datetime
+#  token             :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#
+# Indexes
+#
+#  index_users_on_email  (email) UNIQUE
+#
+
 class User < ApplicationRecord
   has_many :microposts, dependent: :destroy
   has_many :active_relationships, class_name:  "Relationship",
@@ -9,6 +33,7 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships,  source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
   attr_accessor :remember_token, :activation_token, :reset_token
+  before_validation :ensure_token
   before_save   :downcase_email
   before_create :create_activation_digest
   validates :name, presence: true, length: { maximum: 50 }
@@ -18,6 +43,7 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :token, uniqueness: true
 
   # Returns the hash digest of the given string.
   def User.digest(string)
@@ -90,9 +116,19 @@ class User < ApplicationRecord
     active_relationships.create(followed_id: other_user.id)
   end
 
+  # Follows a user or raises ane exception
+  def follow!(other_user)
+    active_relationships.create!(followed_id: other_user.id)
+  end
+
   # Unfollows a user.
   def unfollow(other_user)
     active_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
+  # Unfollows a user or raises an exception
+  def unfollow!(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy!
   end
 
   # Returns true if the current user is following the other user.
@@ -112,5 +148,16 @@ class User < ApplicationRecord
       self.activation_token  = User.new_token
       self.activation_digest = User.digest(activation_token)
     end  
+
+    def ensure_token
+      self.token = generate_hex(:token) unless token.present?
+    end
+
+    def generate_hex(column)
+      loop do
+        hex = SecureRandom.hex
+        break hex unless self.class.where(column => hex).any?
+      end
+    end
 end
 

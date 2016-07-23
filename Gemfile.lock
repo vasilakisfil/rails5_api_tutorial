@@ -1,3 +1,28 @@
+GIT
+  remote: git://github.com/blazed/rspec-json_schema.git
+  revision: 3c78bccf4e1b30f1a03dec4bf395a29959c0def8
+  branch: feature/various_fixes
+  specs:
+    rspec-json_schema (0.2.1)
+      activesupport (>= 4.0.0)
+      json_schema (>= 0.12.3)
+      rspec (>= 3.0)
+
+GIT
+  remote: git://github.com/rails-api/active_model_serializers.git
+  revision: e8343a9049468fd74be5388520d944e5bd09b2ae
+  specs:
+    active_model_serializers (0.10.2)
+      actionpack (>= 4.1, < 6)
+      activemodel (>= 4.1, < 6)
+      jsonapi (~> 0.1.1.beta2)
+      railties (>= 4.1, < 6)
+
+PATH
+  remote: ../active_hash_relation
+  specs:
+    active_hash_relation (1.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -39,6 +64,9 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    annotate (2.7.1)
+      activerecord (>= 3.2, < 6.0)
+      rake (>= 10.4, < 12.0)
     ansi (1.5.0)
     arel (7.0.0)
     autoprefixer-rails (6.3.7)
@@ -66,10 +94,17 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.2)
+    database_cleaner (1.5.3)
     debug_inspector (0.0.2)
+    diff-lcs (1.2.5)
     erubis (2.7.0)
     excon (0.51.0)
     execjs (2.7.0)
+    factory_girl (4.7.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.7.0)
+      factory_girl (~> 4.7.0)
+      railties (>= 3.0.0)
     faker (1.6.3)
       i18n (~> 0.5)
     ffi (1.9.14)
@@ -227,7 +262,10 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (2.0.1)
+    json (1.8.3)
+    json_schema (0.13.0)
+    jsonapi (0.1.1.beta2)
+      json (~> 1.8)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -264,7 +302,11 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
     puma (3.4.0)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     rack (2.0.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -303,6 +345,28 @@ GEM
       builder
       nokogiri (>= 1.4.1)
       trollop
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+    rspec-api_helpers (0.2.1)
+    rspec-core (3.5.1)
+      rspec-support (~> 3.5.0)
+    rspec-expectations (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-mocks (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-rails (3.5.1)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+      rspec-support (~> 3.5.0)
+    rspec-support (3.5.0)
     ruby-progressbar (1.8.1)
     sass (3.4.22)
     sass-rails (5.0.5)
@@ -350,12 +414,17 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_hash_relation!
+  active_model_serializers!
+  annotate
   bcrypt (= 3.1.11)
   bootstrap-sass (= 3.3.6)
   bootstrap-will_paginate (= 0.0.10)
   byebug (= 9.0.0)
   carrierwave (= 0.11.2)
   coffee-rails (= 4.2.1)
+  database_cleaner
+  factory_girl_rails
   faker (= 1.6.3)
   fog (= 1.38.0)
   guard (= 2.13.0)
@@ -366,9 +435,14 @@ DEPENDENCIES
   mini_magick (= 4.5.1)
   minitest-reporters (= 1.1.9)
   pg (= 0.18.4)
+  pry-rails
   puma (= 3.4.0)
+  pundit
   rails (= 5.0.0)
   rails-controller-testing (= 0.1.1)
+  rspec-api_helpers (= 0.2.1)
+  rspec-json_schema!
+  rspec-rails (~> 3.5)
   sass-rails (= 5.0.5)
   spring (= 1.7.2)
   spring-watcher-listen (= 2.0.0)
@@ -380,4 +454,4 @@ DEPENDENCIES
   will_paginate (= 3.1.0)
 
 BUNDLED WITH
-   1.11.2
+   1.12.5
