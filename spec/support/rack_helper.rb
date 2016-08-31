@@ -1,4 +1,4 @@
-module ApiHelper
+module RackHelper
   include Rack::Test::Methods
 
   def app
@@ -7,6 +7,6 @@ module ApiHelper
 end
 
 RSpec.configure do |config|
-  config.include ApiHelper, type: :api
+  config.include RackHelper, type: :api
   config.include Rails.application.routes.url_helpers, type: :api
 end

@@ -4,6 +4,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
+    return Guest.new(record) unless user
     return Regular.new(record)
   end
 
@@ -17,6 +18,7 @@ class UserPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
+      return Guest.new(record, User) unless user
       return Regular.new(scope, User)
     end
   end
@@ -45,6 +47,14 @@ class UserPolicy < ApplicationPolicy
           :password_digest, :remember_digest, :reset_digest, :reset_sent_at,
           :token, :updated_at
         ]
+      end
+    end
+  end
+
+  class Guest < Regular
+    class Fields < self::Fields
+      def permitted
+        super - [:following_state, :follower_state]
       end
     end
   end

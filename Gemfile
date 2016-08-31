@@ -47,6 +47,7 @@ gem 'pundit'
 gem 'annotate'
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'active_hash_relation', path: '../active_hash_relation'
+gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
@@ -56,4 +57,3 @@ group :development, :test do
   gem 'rspec-json_schema', :git => "git://github.com/blazed/rspec-json_schema.git", :branch => "feature/various_fixes"
   gem 'pry-rails'
 end
-

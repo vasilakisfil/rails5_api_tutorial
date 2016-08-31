@@ -4,10 +4,12 @@ class Api::V1::FollowingsController < Api::V1::BaseController
   def index
     auth_followings = policy_scope(@followings)
 
-    render json: auth_followings.collection,
-      each_serializer: UserSerializer,
-      fields: { users: auth_followings.fields(params[:fields])},
-      include: { users: auth_followings.includes(params[:include]) },
+    render jsonapi: auth_followings.collection,
+      each_serializer: Api::V1::UserSerializer,
+      fields: {users: auth_followings.fields(params[:fields]).concat(
+        [:microposts, :followers, :followings]
+      )},
+      include: [],
       meta: meta_attributes(auth_followings.collection)
   end
 
@@ -17,9 +19,7 @@ class Api::V1::FollowingsController < Api::V1::BaseController
       
     @relationship.save!
 
-    render json: auth_following.record, serializer: UserSerializer,
-      fields: { users: auth_following.fields(params[:fields])},
-      include: { users: auth_following.includes(params[:include]) }
+    render jsonapi: auth_following.record, serializer: Api::V1::UserSerializer
   end
 
   #unfollow a user
@@ -28,9 +28,7 @@ class Api::V1::FollowingsController < Api::V1::BaseController
       
     @relationship.destroy!
 
-    render json: auth_following.record, serializer: UserSerializer,
-      fields: { users: auth_following.fields(params[:fields])},
-      include: { users: auth_following.includes(params[:include]) }
+    render jsonapi: auth_following.record, serializer: Api::V1::UserSerializer
   end
 
   private

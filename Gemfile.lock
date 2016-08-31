@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: git://github.com/rails-api/active_model_serializers.git
-  revision: e8343a9049468fd74be5388520d944e5bd09b2ae
+  revision: 1dc2b74059731339f4df3e7882fd949e20433013
   specs:
     active_model_serializers (0.10.2)
       actionpack (>= 4.1, < 6)
@@ -308,6 +308,7 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.1)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.0)
@@ -438,6 +439,7 @@ DEPENDENCIES
   pry-rails
   puma (= 3.4.0)
   pundit
+  rack-cors
   rails (= 5.0.0)
   rails-controller-testing (= 0.1.1)
   rspec-api_helpers (= 0.2.1)

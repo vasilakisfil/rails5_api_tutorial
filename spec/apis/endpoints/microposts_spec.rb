@@ -18,7 +18,7 @@ describe Api::V1::MicropostsController, type: :api do
       @micropost = FactoryGirl.attributes_for(:micropost).merge(
         user_id: user.id
       )
-      post api_v1_microposts_path, micropost: @micropost.as_json
+      post api_v1_microposts_path, jsonapi_style(micropost: @micropost.as_json)
     end
 
     it_returns_status(201)
@@ -43,7 +43,7 @@ describe Api::V1::MicropostsController, type: :api do
       @micropost = Micropost.last!
       @micropost.content = 'Something else'
 
-      put api_v1_micropost_path(@micropost.id), micropost: @micropost.as_json
+      put api_v1_micropost_path(@micropost.id), jsonapi_style(micropost: @micropost.as_json)
     end
 
     it_returns_status(200)
@@ -60,4 +60,3 @@ describe Api::V1::MicropostsController, type: :api do
     it_returns_status(200)
   end
 end
-
