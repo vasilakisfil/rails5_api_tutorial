@@ -8,6 +8,9 @@
 #  activation_digest :string
 #  admin             :boolean          default(FALSE)
 #  email             :string
+#  followers_count   :integer          default(0), not null
+#  followings_count  :integer          default(0), not null
+#  microposts_count  :integer          default(0), not null
 #  name              :string
 #  password_digest   :string
 #  remember_digest   :string
@@ -32,6 +35,7 @@ class User < ApplicationRecord
                                    dependent:   :destroy
   has_many :following, through: :active_relationships,  source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+
   attr_accessor :remember_token, :activation_token, :reset_token
   before_validation :ensure_token
   before_save   :downcase_email

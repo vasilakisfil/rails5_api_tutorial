@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   #api
   namespace :api do
     namespace :v1 do
-      resources :sessions, only: [:create]
+      resources :sessions, only: [:create, :show]
 
       resources :users, only: [:index, :create, :show, :update, :destroy] do
         resources :followers, only: [:index, :destroy]
@@ -29,10 +29,15 @@ Rails.application.routes.draw do
             post :create
           end
         end
+
+        resource :feed, only: [:show]
       end
 
       resources :microposts, only: [:index, :create, :show, :update, :destroy]
+
+      match '*options', controller: 'root', action: 'options',
+                        constraints: { method: 'OPTIONS' },
+                        via: [:options]
     end
   end
-
 end

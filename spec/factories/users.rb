@@ -8,6 +8,9 @@
 #  activation_digest :string
 #  admin             :boolean          default(FALSE)
 #  email             :string
+#  followers_count   :integer          default(0), not null
+#  followings_count  :integer          default(0), not null
+#  microposts_count  :integer          default(0), not null
 #  name              :string
 #  password_digest   :string
 #  remember_digest   :string

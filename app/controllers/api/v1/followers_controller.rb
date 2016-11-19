@@ -4,10 +4,12 @@ class Api::V1::FollowersController < Api::V1::BaseController
   def index
     auth_followers = policy_scope(@followers)
 
-    render json: auth_followers.collection,
-      each_serializer: UserSerializer,
-      fields: { users: auth_followers.fields(params[:fields])},
-      include: { users: auth_followers.includes(params[:include]) },
+    render jsonapi: auth_followers.collection,
+      each_serializer: Api::V1::UserSerializer,
+      fields: {users: auth_followers.fields(params[:fields]).concat(
+        [:microposts, :followers, :followings]
+      )},
+      include: [],
       meta: meta_attributes(auth_followers.collection)
   end
 
@@ -17,9 +19,9 @@ class Api::V1::FollowersController < Api::V1::BaseController
       
     @relationship.destroy!
 
-    render json: auth_follower.record, serializer: UserSerializer,
+    render jsonapi: auth_follower.record, serializer: Api::V1::UserSerializer,
       fields: { users: auth_follower.fields(params[:fields])},
-      include: { users: auth_follower.includes(params[:include]) }
+      include: []
   end
 
   private

@@ -4,28 +4,26 @@ class Api::V1::MicropostsController < Api::V1::BaseController
   def index
     auth_microposts = policy_scope(@microposts)
 
-    render json: auth_microposts.collection,
-      each_serializer: MicropostSerializer,
-      fields: { microposts: auth_microposts.fields(params[:fields])},
-      include: { microposts: auth_microposts.includes(params[:include]) },
+    render jsonapi: auth_microposts.collection,
+      each_serializer: Api::V1::MicropostSerializer,
       meta: meta_attributes(auth_microposts.collection)
   end
 
   def show
     auth_micropost = authorize_with_permissions(@micropost)
 
-    render json: auth_micropost.record, serializer: MicropostSerializer,
-      fields: { microposts: auth_micropost.fields(params[:fields]) },
-      include: { microposts: auth_micropost.includes(params[:include]) }
+    render jsonapi: auth_micropost.record,
+      serializer: Api::V1::MicropostSerializer
   end
 
   def create
     auth_micropost = authorize_with_permissions(@micropost)
 
     if @micropost.save
-      render json: auth_micropost.record, serializer: MicropostSerializer, status: 201,
-        fields: { microposts: auth_micropost.fields(params[:fields]) },
-        include: { microposts: auth_micropost.includes(params[:include]) }
+      render jsonapi:
+        auth_micropost.record,
+        serializer: Api::V1::MicropostSerializer,
+        status: 201
     else
       invalid_resource!(@micropost.errors)
     end
@@ -35,9 +33,8 @@ class Api::V1::MicropostsController < Api::V1::BaseController
     auth_micropost = authorize_with_permissions(@micropost, :update?)
 
     if @micropost.update(update_params)
-      render json: auth_micropost.record, serializer: MicropostSerializer,
-        fields: { microposts: auth_micropost.fields(params[:fields]) },
-        include: { microposts: auth_micropost.includes(params[:include]) }
+      render jsonapi: auth_micropost.record,
+        serializer: Api::V1::MicropostSerializer
     else
       invalid_resource!(@micropost.errors)
     end
@@ -48,32 +45,38 @@ class Api::V1::MicropostsController < Api::V1::BaseController
 
     @micropost.destroy!
 
-    render json: auth_micropost.record, serializer: MicropostSerializer,
-      fields: { microposts: auth_micropost.fields(params[:fields]) },
-      include: { microposts: auth_micropost.includes(params[:include]) }
+    render jsonapi: auth_micropost.record,
+      serializer: Api::V1::MicropostSerializer
   end
 
   private
-  def load_resource
-    case params[:action].to_sym
-    when :index
-      @microposts = paginate(apply_filters(Micropost.all, params))
-    when :create
-      @micropost = Micropost.new(create_params)
-    when :show, :update, :destroy
-      @micropost = Micropost.find(params[:id])
+    def load_resource
+      case params[:action].to_sym
+      when :index
+        @microposts = paginate(apply_filters(Micropost.all, params))
+      when :create
+        @micropost = Micropost.new(create_params)
+      when :show, :update, :destroy
+        @micropost = Micropost.find(params[:id])
+      end
     end
-  end
 
-  def create_params
-    prms = params.require(:micropost).permit(
-      :content, :picture, :user_id
-    )
-    prms[:user_id] = current_user&.id if prms[:user_id].nil?
+    def create_params
+      prms = normalized_params.permit(
+        :content, :picture, :user_id
+      )
+      prms[:user_id] = current_user&.id if prms[:user_id].nil?
 
-    return prms
-  end
-  def update_params
-    create_params
-  end
+      return prms
+    end
+
+    def update_params
+      create_params
+    end
+
+    def normalized_params
+      ActionController::Parameters.new(
+         ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+      )
+    end
 end

@@ -9,7 +9,7 @@ describe Api::V1::SessionsController, type: :api do
         })
 
         post api_v1_sessions_path(
-          email: user.email, password: 'foobar'
+          jsonapi_style(user: {email: user.email, password: 'foobar'})
         )
       end
 
@@ -23,7 +23,7 @@ describe Api::V1::SessionsController, type: :api do
         })
 
         post api_v1_sessions_path(
-          email: user.email, password: 'foobar1'
+          jsonapi_style(user: {email: user.email, password: 'foobar1'})
         )
       end
 
@@ -31,5 +31,3 @@ describe Api::V1::SessionsController, type: :api do
     end
   end
 end
-
-

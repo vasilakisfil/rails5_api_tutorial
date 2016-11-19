@@ -25,3 +25,4 @@
 
 # Ignore uploaded test images.
 /public/uploads
+.envrc

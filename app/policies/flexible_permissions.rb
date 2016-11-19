@@ -73,4 +73,3 @@ module FlexiblePermissions
     end
   end
 end
-

@@ -17,11 +17,36 @@ class MicropostPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      return Regular.new(scope, User)
+      return Regular.new(scope, Micropost)
     end
   end
 
-  class Regular < DefaultPermissions
+  class Admin < DefaultPermissions
+    class Fields < self::Fields
+      def permitted
+        super + [
+          :links
+        ] - [
+          :picture
+        ]
+      end
+    end
+
+    class Includes < self::Includes
+      def default
+        []
+      end
+    end
+  end
+
+  class Regular < Admin
+    class Fields < self::Fields
+      def permitted
+        super - [
+          :update_at
+        ]
+      end
+    end
   end
 end
 

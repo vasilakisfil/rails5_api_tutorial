@@ -15,7 +15,7 @@ describe Api::V1::UsersController, type: :api do
     before do
       #create_and_sign_in_user
       @user = FactoryGirl.attributes_for(:user)
-      post api_v1_users_path, user: @user.as_json
+      post api_v1_users_path, jsonapi_style(user: @user.as_json)
     end
 
     it_returns_status(201)
@@ -40,7 +40,7 @@ describe Api::V1::UsersController, type: :api do
       @user = User.last!
       @user.name = 'Something else'
 
-      put api_v1_user_path(@user.id), user: @user.as_json
+      put api_v1_user_path(@user.id), jsonapi_style(user: @user.as_json)
     end
 
     it_returns_status(200)
