@@ -52,19 +52,4 @@ class ApplicationPolicy
       scope
     end
   end
-
-  class DefaultPermissions
-    include FlexiblePermissions::RoleMethods
-
-    class Fields
-      include FlexiblePermissions::SparsedFieldMethods
-    end
-
-    class Includes
-      include FlexiblePermissions::SparsedIncludeMethods
-    end
-  end
-
 end
-
-

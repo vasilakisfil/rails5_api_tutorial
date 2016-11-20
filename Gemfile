@@ -48,6 +48,8 @@ gem 'annotate'
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'active_hash_relation', path: '../active_hash_relation'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'flexible_permissions'
+
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'

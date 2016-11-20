@@ -17,9 +17,11 @@ class Api::V1::BaseController < ActionController::Base
   end
 
   rescue_from Pundit::NotAuthorizedError do
+    unauthorized!
   end
 
   rescue_from ActiveRecord::RecordNotFound do
+    api_error(status: 404, errors: 'Resource not found!')
   end
 
   rescue_from UnauthenticatedError do
@@ -36,16 +38,13 @@ class Api::V1::BaseController < ActionController::Base
     end
 
     def authenticate_user!
-      token, options = ActionController::HttpAuthentication::Token.token_and_options(
+      token, _ = ActionController::HttpAuthentication::Token.token_and_options(
         request
       )
 
-      user_email = options.blank?? nil : options[:email]
-      user = user_email && User.find_by(email: user_email)
+      user = User.find_by(token: token)
 
-      if user && ActiveSupport::SecurityUtils.secure_compare(
-          user.token, token
-      )
+      if user
         @current_user = user
       else
         raise UnauthenticatedError

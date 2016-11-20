@@ -21,7 +21,7 @@ class MicropostPolicy < ApplicationPolicy
     end
   end
 
-  class Admin < DefaultPermissions
+  class Admin < FlexiblePermissions::Base
     class Fields < self::Fields
       def permitted
         super + [

@@ -5,4 +5,8 @@ class Api::V1::MicropostSerializer < Api::V1::BaseSerializer
     include_data(false)
     link(:related) {api_v1_user_path(object.user_id)}
   end
+
+  def picture
+    object.picture.url
+  end
 end

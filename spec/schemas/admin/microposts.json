@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string"
+              },
+              "user-id": {
+                "type": "integer"
+              },
+              "created-at": {
+                "type": "string"
+              },
+              "updated-at": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "content",
+              "user-id",
+              "created-at",
+              "updated-at"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  }
+                },
+                "required": [
+                  "links"
+                ]
+              }
+            },
+            "required": [
+              "user"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes",
+          "relationships"
+        ]
+      }
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "current-page": {
+          "type": "integer"
+        },
+        "next-page": {
+          "type": ["null", "integer"]
+        },
+        "prev-page": {
+          "type": ["null", "integer"]
+        },
+        "total-pages": {
+          "type": "integer"
+        },
+        "total-count": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "current-page",
+        "next-page",
+        "prev-page",
+        "total-pages",
+        "total-count"
+      ]
+    }
+  },
+  "required": [
+    "data",
+    "links",
+    "meta"
+  ]
+}
+
