@@ -14,5 +14,5 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
-  config.include Rspec::ApiHelpers, type: :api #from rspec-api_helpers gem
+  config.include Rspec::ApiHelpers.with(adapter: :json_api), type: :api #from rspec-api_helpers gem
 end

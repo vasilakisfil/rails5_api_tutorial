@@ -34,16 +34,28 @@ describe Api::V1::FollowingsController, '#create', type: :api do
     context 'when authenticated as the owner' do
       before do
         user = FactoryGirl.create(:user)
-        following = FactoryGirl.create(:user)
+        @following = FactoryGirl.create(:user)
         sign_in(user)
 
         post api_v1_user_following_path(
-          user_id: user.id, id: following.id
+          user_id: user.id, id: @following.id
         )
       end
 
       it_returns_status(200)
       it_follows_json_schema('regular/user')
+
+      it_returns_attribute_values(
+        resource: 'user', model: proc{@following}, attrs: [
+          :id, :name, :created_at, :microposts_count, :followers_count,
+          :followings_count
+        ],
+        modifiers: {
+          created_at: proc{|i| i.in_time_zone('UTC').iso8601.to_s},
+          id: proc{|i| i.to_s},
+          followers_count: proc{|i| i + 1}
+        }
+      )
     end
   end
 end
