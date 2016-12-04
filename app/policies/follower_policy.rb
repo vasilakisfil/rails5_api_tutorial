@@ -1,5 +1,6 @@
 class FollowerPolicy < ApplicationPolicy
   def destroy?
+    raise Pundit::NotAuthorizedError unless record.followed_id == user.id
     return Regular.new(record.follower)
   end
 
@@ -9,7 +10,7 @@ class FollowerPolicy < ApplicationPolicy
     end
   end
 
-  class Regular < DefaultPermissions
+  class Regular < FlexiblePermissions::Base
   end
 end
 

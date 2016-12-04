@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "created-at": {
+                "type": "string"
+              },
+              "updated-at": {
+                "type": "string"
+              },
+              "password-digest": {
+                "type": "string"
+              },
+              "remember-digest": {
+                "type": "null"
+              },
+              "admin": {
+                "type": "boolean"
+              },
+              "activation-digest": {
+                "type": "string"
+              },
+              "activated": {
+                "type": "boolean"
+              },
+              "activated-at": {
+                "type": ["null", "string"]
+              },
+              "reset-digest": {
+                "type": "null"
+              },
+              "reset-sent-at": {
+                "type": "null"
+              },
+              "token": {
+                "type": "string"
+              },
+              "microposts-count": {
+                "type": "integer"
+              },
+              "followers-count": {
+                "type": "integer"
+              },
+              "followings-count": {
+                "type": "integer"
+              },
+              "following-state": {
+                "type": "boolean"
+              },
+              "follower-state": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "email",
+              "created-at",
+              "updated-at",
+              "password-digest",
+              "remember-digest",
+              "admin",
+              "activation-digest",
+              "activated",
+              "activated-at",
+              "reset-digest",
+              "reset-sent-at",
+              "token",
+              "microposts-count",
+              "followers-count",
+              "followings-count",
+              "following-state",
+              "follower-state"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "microposts": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  }
+                },
+                "required": [
+                  "links"
+                ]
+              },
+              "followers": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  }
+                },
+                "required": [
+                  "links"
+                ]
+              },
+              "followings": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  }
+                },
+                "required": [
+                  "links"
+                ]
+              }
+            },
+            "required": [
+              "microposts",
+              "followers",
+              "followings"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes",
+          "relationships"
+        ]
+      }
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "current-page": {
+          "type": "integer"
+        },
+        "next-page": {
+          "type": ["null", "integer"]
+        },
+        "prev-page": {
+          "type": ["null", "integer"]
+        },
+        "total-pages": {
+          "type": "integer"
+        },
+        "total-count": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "current-page",
+        "next-page",
+        "prev-page",
+        "total-pages",
+        "total-count"
+      ]
+    }
+  },
+  "required": [
+    "data",
+    "links",
+    "meta"
+  ]
+}

@@ -6,6 +6,7 @@ class Api::V1::MicropostsController < Api::V1::BaseController
 
     render jsonapi: auth_microposts.collection,
       each_serializer: Api::V1::MicropostSerializer,
+      fields: {micropost: auth_microposts.fields},
       meta: meta_attributes(auth_microposts.collection)
   end
 
@@ -13,17 +14,17 @@ class Api::V1::MicropostsController < Api::V1::BaseController
     auth_micropost = authorize_with_permissions(@micropost)
 
     render jsonapi: auth_micropost.record,
-      serializer: Api::V1::MicropostSerializer
+      serializer: Api::V1::MicropostSerializer,
+      fields: {micropost: auth_micropost.fields}
   end
 
   def create
     auth_micropost = authorize_with_permissions(@micropost)
 
     if @micropost.save
-      render jsonapi:
-        auth_micropost.record,
+      render jsonapi: auth_micropost.record,
         serializer: Api::V1::MicropostSerializer,
-        status: 201
+        fields: {mircopost: auth_micropost.fields}, status: 201
     else
       invalid_resource!(@micropost.errors)
     end
@@ -34,7 +35,8 @@ class Api::V1::MicropostsController < Api::V1::BaseController
 
     if @micropost.update(update_params)
       render jsonapi: auth_micropost.record,
-        serializer: Api::V1::MicropostSerializer
+        serializer: Api::V1::MicropostSerializer,
+        micropost: {user: auth_micropost.fields}
     else
       invalid_resource!(@micropost.errors)
     end
@@ -46,7 +48,8 @@ class Api::V1::MicropostsController < Api::V1::BaseController
     @micropost.destroy!
 
     render jsonapi: auth_micropost.record,
-      serializer: Api::V1::MicropostSerializer
+      serializer: Api::V1::MicropostSerializer,
+      micropost: {user: auth_micropost.fields}
   end
 
   private

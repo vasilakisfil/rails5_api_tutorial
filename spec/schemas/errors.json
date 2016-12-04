@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "pointer": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "pointer"
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "title",
+          "detail",
+          "source"
+        ]
+      }
+    }
+  },
+  "required": [
+    "errors"
+  ]
+}
