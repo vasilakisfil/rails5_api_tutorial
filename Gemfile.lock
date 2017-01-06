@@ -22,6 +22,7 @@ PATH
   remote: ../active_hash_relation
   specs:
     active_hash_relation (1.1.0)
+      activerecord
 
 GEM
   remote: https://rubygems.org/
@@ -351,7 +352,8 @@ GEM
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
-    rspec-api_helpers (0.2.1)
+    rspec-api_helpers (1.0.3)
+      activesupport (> 4.2)
     rspec-core (3.5.1)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -444,7 +446,7 @@ DEPENDENCIES
   rack-cors
   rails (= 5.0.0)
   rails-controller-testing (= 0.1.1)
-  rspec-api_helpers (= 0.2.1)
+  rspec-api_helpers (= 1.0.3)
   rspec-json_schema!
   rspec-rails (~> 3.5)
   sass-rails (= 5.0.5)

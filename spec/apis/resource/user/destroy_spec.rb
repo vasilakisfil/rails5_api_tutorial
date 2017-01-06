@@ -23,6 +23,14 @@ describe Api::V1::UsersController, type: :api do
 
       it_returns_status(200)
       it_follows_json_schema('regular/user')
+      it_returns_attribute_values(
+        resource: 'user', model: proc{@user}, attrs: [
+          :id, :name, :email, :created_at
+        ], modifiers: {
+          created_at: proc{|i| i.in_time_zone('UTC').iso8601.to_s},
+          id: proc{|i| i.to_s}
+        }
+      )
     end
 
     context 'when authenticated as an admin' do
@@ -35,6 +43,13 @@ describe Api::V1::UsersController, type: :api do
 
       it_returns_status(200)
       it_follows_json_schema('admin/user')
+      it_returns_attribute_values(
+        resource: 'user', model: proc{@user}, attrs: User.column_names,
+        modifiers: {
+          [:created_at, :updated_at] => proc{|i| i.in_time_zone('UTC').iso8601.to_s},
+          id: proc{|i| i.to_s}
+        }
+      )
     end
   end
 end

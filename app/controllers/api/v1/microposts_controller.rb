@@ -68,7 +68,9 @@ class Api::V1::MicropostsController < Api::V1::BaseController
       prms = normalized_params.permit(
         :content, :picture, :user_id
       )
-      prms[:user_id] = current_user&.id if prms[:user_id].nil?
+      if prms[:user_id].nil? && params[:action].to_sym == :create
+        prms[:user_id] = current_user&.id
+      end
 
       return prms
     end
