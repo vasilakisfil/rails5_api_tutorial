@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
   before_action :load_resource
-  skip_before_action :authenticate_user!, only: [:create]
+  skip_before_action :authenticate_user!, only: [:create, :activate]
 
   def index
     auth_users = policy_scope(@users)
@@ -18,11 +18,10 @@ class Api::V1::UsersController < Api::V1::BaseController
       fields: {user: auth_user.fields}
   end
 
-  #TODO: figure out if we could avoid returning anything here
   def create
     auth_user = authorize_with_permissions(@user)
 
-    if @user.save && @user.activate
+    if @user.save && @user.send_activation_email(ember_url: true) && @user.activate
       render jsonapi: auth_user.record, serializer: Api::V1::UserSerializer,
         fields: {user: auth_user.fields}, status: 201, scope: @user
     else
@@ -50,6 +49,17 @@ class Api::V1::UsersController < Api::V1::BaseController
       fields: {user: auth_user.fields}
   end
 
+  def activate
+    auth_user = authorize_with_permissions(@user, :activate?)
+
+    if @user.authenticated?(:activation, params[:token])
+      render jsonapi: auth_user.record, serializer: Api::V1::UserSerializer,
+        fields: {user: auth_user.fields}, status: 200, scope: @user
+    else
+      not_found!
+    end
+  end
+
   private
     def load_resource
       case params[:action].to_sym
@@ -59,6 +69,8 @@ class Api::V1::UsersController < Api::V1::BaseController
         @user = User.new(create_params)
       when :show, :update, :destroy
         @user = User.find(params[:id])
+      when :activate
+        @user = User.find_by!(email: params[:email])
       end
     end
 

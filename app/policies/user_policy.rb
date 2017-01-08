@@ -21,6 +21,12 @@ class UserPolicy < ApplicationPolicy
     return Regular.new(record)
   end
 
+  def activate?
+    raise Pundit::NotAuthorizedError unless record.is_a? User
+    return Admin.new(record) if record.admin?
+    return Regular.new(record)
+  end
+
   class Scope < Scope
     def resolve
       return Guest.new(record, User) unless user

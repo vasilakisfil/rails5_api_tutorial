@@ -23,6 +23,10 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create, :show]
 
       resources :users, only: [:index, :create, :show, :update, :destroy] do
+        collection do
+          post :activate
+        end
+
         resources :followers, only: [:index, :destroy]
         resources :followings, only: [:index, :destroy] do
           member do
