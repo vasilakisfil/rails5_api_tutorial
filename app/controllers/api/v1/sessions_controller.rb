@@ -5,11 +5,8 @@ class Api::V1::SessionsController < Api::V1::BaseController
   def create
     if @user
       render(
-        jsonapi: @user,
-        serializer: Api::V1::SessionSerializer,
-        status: 201,
-        include: [:user],
-        scope: @user
+        jsonapi: @user, serializer: Api::V1::SessionSerializer,
+        status: 201, include: [:user], scope: @user
       )
     else
       return api_error(status: 401, errors: 'Wrong password or username')
@@ -18,10 +15,8 @@ class Api::V1::SessionsController < Api::V1::BaseController
 
   def show
       render(
-        jsonapi: User.find_by!(token: params[:id]),
-        serializer: Api::V1::SessionSerializer,
-        status: 201,
-        include: [:user]
+        jsonapi: User.find(params[:id]), serializer: Api::V1::SessionSerializer,
+        status: 201, include: [:user]
       )
   end
 

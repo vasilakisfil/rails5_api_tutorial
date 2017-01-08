@@ -14,5 +14,16 @@ module SampleApp
 
     # Include the authenticity token in remote forms.
     config.action_view.embed_authenticity_token_in_remote_forms = true
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: [
+          :get, :post, :put, :patch, :delete, :options, :head
+        ]
+      end
+    end
+
+    config.middleware.use Rack::Attack
   end
 end

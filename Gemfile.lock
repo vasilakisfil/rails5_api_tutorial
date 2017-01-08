@@ -310,6 +310,8 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.1)
+    rack-attack (4.1.1)
+      rack
     rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -348,6 +350,12 @@ GEM
       builder
       nokogiri (>= 1.4.1)
       trollop
+    redis (3.3.2)
+    redis-activesupport (5.0.1)
+      activesupport (>= 3, < 6)
+      redis-store (~> 1.2.0)
+    redis-store (1.2.0)
+      redis (>= 2.2)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -443,9 +451,11 @@ DEPENDENCIES
   pry-rails
   puma (= 3.4.0)
   pundit
+  rack-attack
   rack-cors
   rails (= 5.0.0)
   rails-controller-testing (= 0.1.1)
+  redis-activesupport
   rspec-api_helpers (= 1.0.3)
   rspec-json_schema!
   rspec-rails (~> 3.5)
