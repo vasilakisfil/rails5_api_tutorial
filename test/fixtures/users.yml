@@ -30,6 +30,7 @@ michael:
   email: michael@example.com
   password_digest: <%= User.digest('password') %>
   admin: true
+  token: <%= SecureRandom.hex %>
   activated: true
   activated_at: <%= Time.zone.now %>
 
@@ -37,6 +38,7 @@ archer:
   name: Sterling Archer
   email: duchess@example.gov
   password_digest: <%= User.digest('password') %>
+  token: <%= SecureRandom.hex %>
   activated: true
   activated_at: <%= Time.zone.now %>
 
@@ -44,6 +46,7 @@ lana:
   name: Lana Kane
   email: hands@example.gov
   password_digest: <%= User.digest('password') %>
+  token: <%= SecureRandom.hex %>
   activated: true
   activated_at: <%= Time.zone.now %>
 
@@ -51,6 +54,7 @@ malory:
   name: Malory Archer
   email: boss@example.gov
   password_digest: <%= User.digest('password') %>
+  token: <%= SecureRandom.hex %>
   activated: true
   activated_at: <%= Time.zone.now %>
 
@@ -59,6 +63,7 @@ user_<%= n %>:
   name:  <%= "User #{n}" %>
   email: <%= "user-#{n}@example.com" %>
   password_digest: <%= User.digest('password') %>
+  token: <%= SecureRandom.hex %>
   activated: true
   activated_at: <%= Time.zone.now %>
 <% end %>
