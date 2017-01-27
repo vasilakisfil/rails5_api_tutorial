@@ -10,8 +10,14 @@ describe Api::V1::UsersController, '#show', type: :api do
         get api_v1_user_path(@user.id)
       end
 
-      it_returns_status(401)
-      it_follows_json_schema('errors')
+      it_returns_status(200)
+      it_follows_json_schema('guest/user')
+      it_returns_attribute_values(
+        resource: 'user', model: proc{@user}, attrs: [:name, :created_at],
+        modifiers: {
+          created_at: proc{|i| i.in_time_zone('UTC').iso8601.to_s},
+        }
+      )
     end
 
     context 'when authenticated as a regular user' do

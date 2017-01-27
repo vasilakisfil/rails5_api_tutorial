@@ -6,7 +6,7 @@ class Api::V1::MicropostsController < Api::V1::BaseController
 
     render jsonapi: auth_microposts.collection,
       each_serializer: Api::V1::MicropostSerializer,
-      fields: {micropost: auth_microposts.fields},
+      fields: {micropost: auth_microposts.fields(params[:fields])},
       meta: meta_attributes(auth_microposts.collection)
   end
 

@@ -8,7 +8,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
     render jsonapi: auth_users.collection,
       each_serializer: Api::V1::UserSerializer,
-      fields: {user: auth_users.fields},
+      fields: {user: auth_users.fields(params[:fields])},
       meta: meta_attributes(auth_users.collection)
   end
 

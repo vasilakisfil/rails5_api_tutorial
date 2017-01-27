@@ -14,10 +14,14 @@ class Api::V1::SessionsController < Api::V1::BaseController
   end
 
   def show
-      render(
-        jsonapi: User.find(params[:id]), serializer: Api::V1::SessionSerializer,
-        status: 201, include: [:user]
-      )
+    authorize(@user)
+
+    render(
+      jsonapi: @user, serializer: Api::V1::SessionSerializer,
+      status: 200, include: [:user], fields: {
+        user: UserPolicy::Regular.new(@user).fields
+      }
+    )
   end
 
   private
@@ -31,6 +35,8 @@ class Api::V1::SessionsController < Api::V1::BaseController
         @user = User.find_by(
           email: create_params[:email]
         )&.authenticate(create_params[:password])
+      when :show
+        @user = User.find(params[:id])
       end
     end
 

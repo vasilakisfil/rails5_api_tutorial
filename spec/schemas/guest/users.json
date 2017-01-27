@@ -1,0 +1,156 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "created-at": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "created-at"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "microposts": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  }
+                },
+                "required": [
+                  "links"
+                ]
+              },
+              "followers": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  }
+                },
+                "required": [
+                  "links"
+                ]
+              },
+              "followings": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  }
+                },
+                "required": [
+                  "links"
+                ]
+              }
+            },
+            "required": [
+              "microposts",
+              "followers",
+              "followings"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes",
+          "relationships"
+        ]
+      }
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "self": {
+          "type": "string"
+        },
+        "next": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string"
+        }
+      },
+      "required": [
+      ]
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "current-page": {
+          "type": "integer"
+        },
+        "next-page": {
+          "type": ["null", "integer"]
+        },
+        "prev-page": {
+          "type": "null"
+        },
+        "total-pages": {
+          "type": "integer"
+        },
+        "total-count": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "current-page",
+        "next-page",
+        "prev-page",
+        "total-pages",
+        "total-count"
+      ]
+    }
+  },
+  "required": [
+    "data",
+    "links",
+    "meta"
+  ]
+}
