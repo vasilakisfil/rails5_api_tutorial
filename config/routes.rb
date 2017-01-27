@@ -23,25 +23,14 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create, :show]
 
       resources :users, only: [:index, :create, :show, :update, :destroy] do
-        collection do
-          post :activate
-        end
-
+        post :activate, on: :collection
         resources :followers, only: [:index, :destroy]
         resources :followings, only: [:index, :destroy] do
-          member do
-            post :create
-          end
+          post :create, on: :member
         end
-
         resource :feed, only: [:show]
       end
-
       resources :microposts, only: [:index, :create, :show, :update, :destroy]
-
-      match '*options', controller: 'root', action: 'options',
-                        constraints: { method: 'OPTIONS' },
-                        via: [:options]
     end
   end
 end

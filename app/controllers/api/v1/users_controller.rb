@@ -1,6 +1,7 @@
 class Api::V1::UsersController < Api::V1::BaseController
   before_action :load_resource
-  skip_before_action :authenticate_user!, only: [:create, :activate]
+  skip_before_action :authenticate_user!, only: [:index, :show, :create, :activate]
+  before_action :authenticate_user, only: [:index, :show]
 
   def index
     auth_users = policy_scope(@users)

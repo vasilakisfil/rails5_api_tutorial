@@ -17,6 +17,10 @@ class Api::V1::ErrorSerializer
     }
   end
 
+  def to_json
+    as_json.to_json
+  end
+
   private
 
     def parse_am_errors(errors)

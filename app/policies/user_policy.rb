@@ -66,7 +66,10 @@ class UserPolicy < ApplicationPolicy
   class Guest < Regular
     class Fields < self::Fields
       def permitted
-        super - [:following_state, :follower_state]
+        super - [
+          :following_state, :follower_state, :email, :microposts_count,
+          :followers_count, :followings_count
+        ]
       end
     end
   end
