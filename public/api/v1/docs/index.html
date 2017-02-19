@@ -1,0 +1,1282 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #272822;
+  background-color: #f92672;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #f8f8f2;
+}
+.highlight .p, .highlight .pi {
+  color: #f8f8f2;
+}
+.highlight .gi {
+  color: #a6e22e;
+}
+.highlight .gd {
+  color: #f92672;
+}
+.highlight .gh {
+  color: #66d9ef;
+  background-color: #272822;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #ae81ff;
+}
+.highlight .kc {
+  color: #fd971f;
+}
+.highlight .kt {
+  color: #fd971f;
+}
+.highlight .kd {
+  color: #fd971f;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #a6e22e;
+}
+.highlight .sr {
+  color: #a1efe4;
+}
+.highlight .si {
+  color: #cc6633;
+}
+.highlight .se {
+  color: #cc6633;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #66d9ef;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #a6e22e;
+}
+.highlight .ss {
+  color: #a6e22e;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;http&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="http">http</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="introduction">Introduction</h1>
+
+<p>Welcome to rails tutorial API.
+The implementation of the API can be found <a href="https://github.com/vasilakisfil/rails5_api_tutorial">here</a>. Using this API an Ember application is also built, found <a href="https://github.com/vasilakisfil/ember_on_rails5">here</a>.</p>
+
+<p>The following documents the V1 API.</p>
+
+          <h1 id="overview">Overview</h1>
+
+<h2 id="general-notes">General Notes</h2>
+
+<p>You are encouraged to always provide a valid <code class="prettyprint">user-agent</code> string.</p>
+
+<h2 id="current-version">Current Version</h2>
+
+<p>The current version of API is V1. The version is defined on the resource, thus reflecting
+the resource version and not in the Accept header.</p>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">rails-tutorial-api.heroku.com</span>
+</code></pre>
+<h2 id="datetimes-representations">DateTimes representations</h2>
+
+<p>All date/time representations are on ISO 8601 format:
+<code class="prettyprint">
+YYYY-MM-DDTHH:MM:SSZ
+</code>
+The returned timezone is UTC.</p>
+
+<h2 id="client-errors">Client Errors</h2>
+<pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">400</span> <span class="ne">Bad Request</span>
+<span class="s">{  </span>
+<span class="s">  "errors":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "status":400,</span>
+<span class="s">      "title":"JSON has wrong syntax",</span>
+<span class="s">      "detail":"can't be blank",</span>
+<span class="s">      "source":{  </span>
+<span class="s">        "pointer":"data"</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ]</span>
+<span class="s">}</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">422</span> <span class="ne">Unprocessable Entity</span>
+<span class="s">{  </span>
+<span class="s">  "errors":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "status":422,</span>
+<span class="s">      "title":"can't be blank",</span>
+<span class="s">      "detail":"can't be blank",</span>
+<span class="s">      "source":{  </span>
+<span class="s">        "pointer":"data/attributes/name"</span>
+<span class="s">      }</span>
+<span class="s">    },</span>
+<span class="s">    {  </span>
+<span class="s">      "status":422,</span>
+<span class="s">      "title":"can't be blank",</span>
+<span class="s">      "detail":"can't be blank",</span>
+<span class="s">      "source":{  </span>
+<span class="s">        "pointer":"data/attributes/email"</span>
+<span class="s">      }</span>
+<span class="s">    },</span>
+<span class="s">    {  </span>
+<span class="s">      "status":422,</span>
+<span class="s">      "title":"is invalid",</span>
+<span class="s">      "detail":"is invalid",</span>
+<span class="s">      "source":{  </span>
+<span class="s">        "pointer":"data/attributes/email"</span>
+<span class="s">      }</span>
+<span class="s">    },</span>
+<span class="s">    {  </span>
+<span class="s">      "status":422,</span>
+<span class="s">      "title":"can't be blank",</span>
+<span class="s">      "detail":"can't be blank",</span>
+<span class="s">      "source":{  </span>
+<span class="s">        "pointer":"data/attributes/password"</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ]</span>
+<span class="s">}</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">401</span> <span class="ne">Unprocessable Entity</span>
+<span class="s">{  </span>
+<span class="s">  "errors":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "status":401,</span>
+<span class="s">      "title":"Not Authenticated",</span>
+<span class="s">      "detail":"Not Authenticated",</span>
+<span class="s">      "source":{  </span>
+<span class="s">        "pointer":"data"</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ]</span>
+<span class="s">}</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">403</span> <span class="ne">Unprocessable Entity</span>
+<span class="s">{  </span>
+<span class="s">  "errors":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "status":401,</span>
+<span class="s">      "title":"Not Authorized for this action",</span>
+<span class="s">      "detail":"Not Authorized for this action",</span>
+<span class="s">      "source":{  </span>
+<span class="s">        "pointer":"data"</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ]</span>
+<span class="s">}</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">500</span> <span class="ne">Unprocessable Entity</span>
+<span class="s">{  </span>
+<span class="s">  "errors":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "status":401,</span>
+<span class="s">      "title":"Something went terribly wrong here. Open a github issue :)",</span>
+<span class="s">      "detail":"Something went terribly wrong here. Open a github issue :)",</span>
+<span class="s">      "source":{  </span>
+<span class="s">        "pointer":"data"</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ]</span>
+<span class="s">}</span>
+</code></pre>
+<p>The client errors are pretty basic, yet helpful.</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request &ndash; You have a critical error on your request, like bad JSON representation</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized &ndash; You try to access a protected resource without providing authentication credentials or with wrong credentials</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden &ndash; You try to access or act on a protected resource but your credentials that you provide do not authorize your action for that resource.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found &ndash; The specified kitten could not be found</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed &ndash; You tried to access a kitten with an invalid method</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
+</tr>
+<tr>
+<td>422</td>
+<td>lalala &ndash; Your request is understood but you miss a required param, or part of your json is in wrong format (like sending an date object in an integer param)</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests &ndash; Slown down! Follow the rate limits!</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error &ndash; Something went terribly wrong, open a gihub issue :)</td>
+</tr>
+</tbody></table>
+
+<h2 id="authentication">Authentication</h2>
+
+<p>In order to be able to act on behalf of a user, you must first retrieve her token
+via the <a href="#sessions">sessions</a> endpoint.</p>
+
+<h2 id="authorization">Authorization</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/microposts/1</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">rails-tutorial-api.heroku.com</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Token token="TnQfBY1S/aMdO46sUfXx8mkPa4yxawqgaqVlD2YNzj19QlGI02eFIpoj9YaBtXm3efQZt5oXIQ6DpBw9gvuVGA==", user_email="example@railstutorial.org"</span>
+</code></pre>
+<p>You can authenticate in the API by providing the user&rsquo;s token and email in the <code class="prettyprint">Authorization</code> header.</p>
+
+<h2 id="pagination">Pagination</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/resource?page=2&amp;per_page=100</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">rails-tutorial-api.heroku.com</span>
+</code></pre>
+<p>Requests that return multiple items will be paginated to 30 items by default.
+You can specify further pages with the <code class="prettyprint">?page</code> parameter.
+For some resources, you can also set a custom page size up to 100 with the <code class="prettyprint">?per_page</code> parameter.</p>
+
+<h2 id="rate-limiting">Rate Limiting</h2>
+<pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Date</span><span class="p">:</span> <span class="s">Mon, 01 Jul 2013 17:27:06 GMT</span>
+<span class="na">Status</span><span class="p">:</span> <span class="s">200 OK</span>
+<span class="na">X-Ratelimit-Limit</span><span class="p">:</span> <span class="s">100000</span>
+<span class="na">X-Ratelimit-Remaining</span><span class="p">:</span> <span class="s">99994</span>
+</code></pre>
+<p>You can check the returned HTTP headers of any API request to see your current rate limit status.</p>
+
+<p>It should be noted that the rate limit is variable, depending on the server load. Please stay on the limits.</p>
+
+<p>If you have abused the limits, you will receive a 429 error as described in the <a href="#client-errors">Client Errors</a></p>
+
+<aside class="notice">
+Although there are no hard limits, you should follow the limits defined on the API response
+</aside>
+
+<h2 id="cross-origin-resource-sharing">Cross Origin Resource Sharing</h2>
+
+<p>The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any origin.</p>
+
+<h2 id="meta-data">Meta Data</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/resources</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{</span>
+<span class="s">  "resources": [</span>
+<span class="s">  ],</span>
+<span class="s">  "meta":{</span>
+<span class="s">    "current_page":45,</span>
+<span class="s">    "next_page":46,</span>
+<span class="s">    "prev_page":44,</span>
+<span class="s">    "total_pages":53,</span>
+<span class="s">    "total_count":105</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>In each GET request that acts upon resources, there is an extra field in the response under &ldquo;meta&rdquo; root element.
+It includes, the current requested page, next page, previous page, total pages and the total number of resources under the given params.</p>
+
+<h2 id="filtering">Filtering</h2>
+
+<p>In some resource you are allowed to filter the collection based on some predefined query params.
+For instance, you might be able to filter based on <code class="prettyprint">user_id</code>.
+That is, sending <code class="prettyprint">GET /api/v1/resources?user_id=1</code> will ask all resources of type <code class="prettyprint">resource</code> that have <code class="prettyprint">user_id=1</code>.
+You can also send an array instead of a value: <code class="prettyprint">GET /api/v1/resources?state[]=draft&amp;state[]=failed</code> which will ask all resources of type <code class="prettyprint">resource</code> that have <code class="prettyprint">state</code> <code class="prettyprint">draft</code> or <code class="prettyprint">failed</code>.
+The filter params that are supported and the available actions on them are described per resource.</p>
+
+<h2 id="sparsed-fields">Sparsed fields</h2>
+
+<p>Some resources clearly state that they support spared fields, meaning that you can specify which fields the server should send you back regadless if you ask a collection or a single resource using the <code class="prettyprint">fields</code> param.
+Although usually supplying a <code class="prettyprint">fields</code> param can help API memory as well as performance, for each resource/collection there are default fields in case you don&rsquo;t provide any <code class="prettyprint">fields</code> param.
+You can also use <code class="prettyprint">fields</code> param to request specific fields on the resource (that are not included on the defaults but you do have permission for them) that take more time to be computed than the rest fields (for instance, fields computed by talking to an external API).</p>
+
+<ul>
+<li><code class="prettyprint">GET /api/v1/resources?fields[]=id&amp;fields[]=description</code>: get only <code class="prettyprint">id</code> and <code class="prettyprint">description</code> from collection of type <code class="prettyprint">resource</code>.</li>
+</ul>
+
+<p>You can&rsquo;t specify fields on associations.
+Avaliable/returned fields depend on the session user permissions.</p>
+
+<h2 id="other-information">Other information</h2>
+
+<p>When requesting a list of resources, default sorting is descending by creation datetime.</p>
+
+<p>For all collection endpoints, active_hash_relation has been used which means you have plenty
+options to filter </p>
+
+          <h1 id="sessions">Sessions</h1>
+
+<h2 id="create-a-session">Create a Session</h2>
+<pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/api/v1/sessions</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+
+{  
+  "data":{  
+    "type":"users",
+    "attributes":{  
+      "email":"filippos@email.com",
+      "password":"123123123",
+    }
+  }
+}
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"8",</span>
+<span class="s">    "type":"session",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "email":"filippos@email.com",</span>
+<span class="s">      "token":"3137ace44910cabf79fbbf8823869d72",</span>
+<span class="s">      "user-id":8</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "user":{  </span>
+<span class="s">        "data":{  </span>
+<span class="s">          "id":"8",</span>
+<span class="s">          "type":"users"</span>
+<span class="s">        },</span>
+<span class="s">        "links":{  </span>
+<span class="s">          "self":"/api/v1/users/8",</span>
+<span class="s">          "related":"/api/v1/users/8"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  },</span>
+<span class="s">  "included":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "id":"8",</span>
+<span class="s">      "type":"users",</span>
+<span class="s">      "attributes":{  </span>
+<span class="s">        "name":"Filippos Vasilakis",</span>
+<span class="s">        "email":"filippos@email.com",</span>
+<span class="s">        "created-at":"2016-11-05T10:15:27Z",</span>
+<span class="s">        "microposts-count":0,</span>
+<span class="s">        "followers-count":0,</span>
+<span class="s">        "followings-count":0,</span>
+<span class="s">        "following-state":false,</span>
+<span class="s">        "follower-state":false</span>
+<span class="s">      },</span>
+<span class="s">      "relationships":{  </span>
+<span class="s">        "microposts":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/microposts?user_id=8"</span>
+<span class="s">          }</span>
+<span class="s">        },</span>
+<span class="s">        "followers":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/8/followers"</span>
+<span class="s">          }</span>
+<span class="s">        },</span>
+<span class="s">        "followings":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/8/followings"</span>
+<span class="s">          }</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ]</span>
+<span class="s">}</span>
+</code></pre>
+<p>Creates a new session by creating a new user token to be used for any authenticated request.</p>
+
+<h2 id="show-a-session">Show a Session</h2>
+
+<p>Shows the current session.</p>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/session/1</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"8",</span>
+<span class="s">    "type":"session",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "email":"filippos@email.com",</span>
+<span class="s">      "token":"3137ace44910cabf79fbbf8823869d72",</span>
+<span class="s">      "user-id":8</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "user":{  </span>
+<span class="s">        "data":{  </span>
+<span class="s">          "id":"8",</span>
+<span class="s">          "type":"users"</span>
+<span class="s">        },</span>
+<span class="s">        "links":{  </span>
+<span class="s">          "self":"/api/v1/users/8",</span>
+<span class="s">          "related":"/api/v1/users/8"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  },</span>
+<span class="s">  "included":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "id":"8",</span>
+<span class="s">      "type":"users",</span>
+<span class="s">      "attributes":{  </span>
+<span class="s">        "name":"Filippos Vasilakis",</span>
+<span class="s">        "email":"filippos@email.com",</span>
+<span class="s">        "created-at":"2016-11-05T10:15:27Z",</span>
+<span class="s">        "microposts-count":0,</span>
+<span class="s">        "followers-count":0,</span>
+<span class="s">        "followings-count":0,</span>
+<span class="s">        "following-state":false,</span>
+<span class="s">        "follower-state":false</span>
+<span class="s">      },</span>
+<span class="s">      "relationships":{  </span>
+<span class="s">        "microposts":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/microposts?user_id=8"</span>
+<span class="s">          }</span>
+<span class="s">        },</span>
+<span class="s">        "followers":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/8/followers"</span>
+<span class="s">          }</span>
+<span class="s">        },</span>
+<span class="s">        "followings":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/8/followings"</span>
+<span class="s">          }</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ]</span>
+<span class="s">}</span>
+</code></pre>
+          <h1 id="users">Users</h1>
+
+<h2 id="list-users">List Users</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/users</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "id":"108",</span>
+<span class="s">      "type":"users",</span>
+<span class="s">      "attributes":{  </span>
+<span class="s">        "name":"Filippos Vasilakis",</span>
+<span class="s">        "email":"filippos@email.com",</span>
+<span class="s">        "created-at":"2017-02-19T15:14:40Z",</span>
+<span class="s">        "microposts-count":0,</span>
+<span class="s">        "followers-count":0,</span>
+<span class="s">        "followings-count":0,</span>
+<span class="s">        "following-state":false,</span>
+<span class="s">        "follower-state":false</span>
+<span class="s">      },</span>
+<span class="s">      "relationships":{  </span>
+<span class="s">        "microposts":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/microposts?user_id=7"</span>
+<span class="s">          }</span>
+<span class="s">        },</span>
+<span class="s">        "followers":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/7/followers"</span>
+<span class="s">          }</span>
+<span class="s">        },</span>
+<span class="s">        "followings":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/7/followings"</span>
+<span class="s">          }</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ],</span>
+<span class="s">  "links":{  </span>
+<span class="s">    "self":"http://localhost:3000/api/v1/users?page%5Bnumber%5D=1\u0026page%5Bsize%5D=1\u0026per_page=1",</span>
+<span class="s">    "next":"http://localhost:3000/api/v1/users?page%5Bnumber%5D=2\u0026page%5Bsize%5D=1\u0026per_page=1",</span>
+<span class="s">    "last":"http://localhost:3000/api/v1/users?page%5Bnumber%5D=105\u0026page%5Bsize%5D=1\u0026per_page=1"</span>
+<span class="s">  },</span>
+<span class="s">  "meta":{  </span>
+<span class="s">    "current-page":1,</span>
+<span class="s">    "next-page":2,</span>
+<span class="s">    "prev-page":null,</span>
+<span class="s">    "total-pages":105,</span>
+<span class="s">    "total-count":105</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You can GET all users in <code class="prettyprint">/api/v1/users</code>.
+You can filter the records using a micro-API based on <a href="https://github.com/kollegorna/active_hash_relation">ActiveHashRelation gem</a>.</p>
+
+<p>If you do not authenticate then you only get the <code class="prettyprint">name</code> attribute of the resource.</p>
+
+<h2 id="create-a-user">Create a User</h2>
+<pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/api/v1/users</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+
+{  
+  "data":{  
+    "type":"users",
+    "attributes":{  
+      "password":"123123123",
+      "email":"filippos@email.com",
+      "name":"Filippos Vasilakis",
+    }
+  }
+}
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"108",</span>
+<span class="s">    "type":"users",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "name":"Filippos Vasilakis",</span>
+<span class="s">      "email":"filippos@email.com",</span>
+<span class="s">      "created-at":"2017-02-19T15:14:40Z",</span>
+<span class="s">      "microposts-count":0,</span>
+<span class="s">      "followers-count":0,</span>
+<span class="s">      "followings-count":0,</span>
+<span class="s">      "following-state":false,</span>
+<span class="s">      "follower-state":false</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "microposts":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/microposts?user_id=108"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followers":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/108/followers"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followings":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/108/followings"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You can create a new user sending a POST to <code class="prettyprint">/api/v1/users</code> with the necessary attributes.
+A user object should at least include, an email, a password
+It doesn&rsquo;t require authentication.</p>
+
+<h2 id="show-a-user">Show a User</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/users/1</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"108",</span>
+<span class="s">    "type":"users",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "name":"Filippos Vasilakis",</span>
+<span class="s">      "email":"filippos@email.com",</span>
+<span class="s">      "created-at":"2017-02-19T15:14:40Z",</span>
+<span class="s">      "microposts-count":0,</span>
+<span class="s">      "followers-count":0,</span>
+<span class="s">      "followings-count":0,</span>
+<span class="s">      "following-state":false,</span>
+<span class="s">      "follower-state":false</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "microposts":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/microposts?user_id=108"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followers":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/108/followers"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followings":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/108/followings"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You can retrieve a user&rsquo;s info by sending a GET request to <code class="prettyprint">/api/v1/users/{id}</code>.</p>
+
+<h2 id="update-a-user">Update a User</h2>
+<pre class="highlight http"><code><span class="nf">PUT</span> <span class="nn">/api/v1/users/1</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+<span class="s">{</span>
+<span class="s">  "user": {</span>
+<span class="s">    "name":"Philipp",</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"108",</span>
+<span class="s">    "type":"users",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "name":"Philipp Vasilakis",</span>
+<span class="s">      "email":"filippos@email.com",</span>
+<span class="s">      "created-at":"2017-02-19T15:14:40Z",</span>
+<span class="s">      "microposts-count":0,</span>
+<span class="s">      "followers-count":0,</span>
+<span class="s">      "followings-count":0,</span>
+<span class="s">      "following-state":false,</span>
+<span class="s">      "follower-state":false</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "microposts":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/microposts?user_id=108"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followers":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/108/followers"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followings":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/108/followings"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You can update a user&rsquo;s attributes by sending a PUT request to <code class="prettyprint">/api/v1/users/{id}</code> with the necessary attributes.</p>
+
+<h2 id="destroy-a-user">Destroy a User</h2>
+<pre class="highlight http"><code><span class="nf">DELETE</span> <span class="nn">/api/v1/users/1</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"108",</span>
+<span class="s">    "type":"users",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "name":"Philipp Vasilakis",</span>
+<span class="s">      "email":"filippos@email.com",</span>
+<span class="s">      "created-at":"2017-02-19T15:14:40Z",</span>
+<span class="s">      "microposts-count":0,</span>
+<span class="s">      "followers-count":0,</span>
+<span class="s">      "followings-count":0,</span>
+<span class="s">      "following-state":false,</span>
+<span class="s">      "follower-state":false</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "microposts":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/microposts?user_id=108"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followers":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/108/followers"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followings":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/108/followings"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You get back the deleted user.</p>
+
+<h2 id="activate">Activate</h2>
+<pre class="highlight http"><code><span class="nf">DELETE</span> <span class="nn">/api/v1/users/activate?token=0123</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"108",</span>
+<span class="s">    "type":"users",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "name":"Philipp Vasilakis",</span>
+<span class="s">      "email":"filippos@email.com",</span>
+<span class="s">      "created-at":"2017-02-19T15:14:40Z",</span>
+<span class="s">      "microposts-count":0,</span>
+<span class="s">      "followers-count":0,</span>
+<span class="s">      "followings-count":0,</span>
+<span class="s">      "following-state":false,</span>
+<span class="s">      "follower-state":false</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "microposts":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/microposts?user_id=108"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followers":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/108/followers"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followings":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/108/followings"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>To activate a user you will need the unique token sent in the activation email, after the user signs up.</p>
+
+<p>You get back the activated user.</p>
+
+          <h1 id="microposts">Microposts</h1>
+
+<h2 id="list-microposts">List Microposts</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/microposts</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "id":"349",</span>
+<span class="s">      "type":"microposts",</span>
+<span class="s">      "attributes":{  </span>
+<span class="s">        "content":"test",</span>
+<span class="s">        "user-id":1,</span>
+<span class="s">        "created-at":"2016-11-19T18:56:55Z",</span>
+<span class="s">        "updated-at":"2016-11-19T18:56:55Z"</span>
+<span class="s">      },</span>
+<span class="s">      "relationships":{  </span>
+<span class="s">        "user":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/1"</span>
+<span class="s">          }</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ],</span>
+<span class="s">  "links":{  </span>
+<span class="s">    "self":"http://localhost:3000/api/v1/microposts?page%5Bnumber%5D=1\u0026page%5Bsize%5D=1\u0026per_page=1",</span>
+<span class="s">    "next":"http://localhost:3000/api/v1/microposts?page%5Bnumber%5D=2\u0026page%5Bsize%5D=1\u0026per_page=1",</span>
+<span class="s">    "last":"http://localhost:3000/api/v1/microposts?page%5Bnumber%5D=349\u0026page%5Bsize%5D=1\u0026per_page=1"</span>
+<span class="s">  },</span>
+<span class="s">  "meta":{  </span>
+<span class="s">    "current-page":1,</span>
+<span class="s">    "next-page":2,</span>
+<span class="s">    "prev-page":null,</span>
+<span class="s">    "total-pages":349,</span>
+<span class="s">    "total-count":349</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You can GET all microposts in /api/v1/microposts.
+You can filter the records using a micro-API based on <a href="https://github.com/kollegorna/active_hash_relation">ActiveHashRelation gem</a>.</p>
+
+<h2 id="create-a-micropost">Create a Micropost</h2>
+<pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/api/v1/microposts</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+
+{  
+  "data":{  
+    "type":"microposts",
+    "attributes":{  
+      "micropost": {
+        "content":"A simple micropost",
+        "user_id":1
+      }
+    }
+  }
+}
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"1",</span>
+<span class="s">    "type":"microposts",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "content":"A simple micropost",</span>
+<span class="s">      "user-id":1,</span>
+<span class="s">      "created-at":"2016-11-05T10:15:37Z",</span>
+<span class="s">      "updated-at":"2016-11-05T10:15:37Z"</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "user":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/1"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You can create a new micropost sending a POST to <code class="prettyprint">/api/v1/microposts</code> with the necessary attributes.
+A micropost object should at least include, content and a <code class="prettyprint">user_id</code>.
+A user can create only micropost with her own <code class="prettyprint">user_id</code>.</p>
+
+<h2 id="show-a-micropost">Show a Micropost</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/microposts/1</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"1",</span>
+<span class="s">    "type":"microposts",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "content":"A simple micropost",</span>
+<span class="s">      "user-id":1,</span>
+<span class="s">      "created-at":"2016-11-05T10:15:37Z",</span>
+<span class="s">      "updated-at":"2016-11-05T10:15:37Z"</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "user":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/1"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You can retrieve a micropost&rsquo;s info by sending a GET request to <code class="prettyprint">/api/v1/microposts/{id}</code>.</p>
+
+<h2 id="update-a-micropost">Update a Micropost</h2>
+<pre class="highlight http"><code><span class="nf">PUT</span> <span class="nn">/api/v1/microposts/1</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "type":"microposts",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "micropost": {</span>
+<span class="s">        "content":"Another micropost",</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"1",</span>
+<span class="s">    "type":"microposts",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "content":"Another micropost",</span>
+<span class="s">      "user-id":1,</span>
+<span class="s">      "created-at":"2016-11-05T10:15:37Z",</span>
+<span class="s">      "updated-at":"2016-11-05T10:15:37Z"</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "user":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/1"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You can update a micropost&rsquo;s attributes by sending a PUT request to <code class="prettyprint">/api/v1/microposts/{id}</code> with the necessary attributes.</p>
+
+<h2 id="destroy-a-micropost">Destroy a Micropost</h2>
+<pre class="highlight http"><code><span class="nf">DELETE</span> <span class="nn">/api/v1/microposts/1</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"1",</span>
+<span class="s">    "type":"microposts",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "content":"Another micropost",</span>
+<span class="s">      "user-id":1,</span>
+<span class="s">      "created-at":"2016-11-05T10:15:37Z",</span>
+<span class="s">      "updated-at":"2016-11-05T10:15:37Z"</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "user":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/1"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You get back the deleted micropost.</p>
+
+          <h1 id="followers">Followers</h1>
+
+<p>Followings is the users that a user follows.</p>
+
+<h2 id="list-followers">List Followers</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/users/1/followers</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "id":"2",</span>
+<span class="s">      "type":"users",</span>
+<span class="s">      "attributes":{  </span>
+<span class="s">        "name":"Lucio Luettgen",</span>
+<span class="s">        "email":"example-1@railstutorial.org",</span>
+<span class="s">        "created-at":"2016-11-05T10:15:26Z",</span>
+<span class="s">        "microposts-count":50,</span>
+<span class="s">        "followers-count":1,</span>
+<span class="s">        "followings-count":1,</span>
+<span class="s">        "following-state":false,</span>
+<span class="s">        "follower-state":false</span>
+<span class="s">      },</span>
+<span class="s">      "relationships":{  </span>
+<span class="s">        "microposts":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/microposts?user_id=2"</span>
+<span class="s">          }</span>
+<span class="s">        },</span>
+<span class="s">        "followers":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/2/followers"</span>
+<span class="s">          }</span>
+<span class="s">        },</span>
+<span class="s">        "followings":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/2/followings"</span>
+<span class="s">          }</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ],</span>
+<span class="s">  "links":{  </span>
+<span class="s">    "self":"http://localhost:3000/api/v1/users/1/followings?page%5Bnumber%5D=1&amp;page%5Bsize%5D=1&amp;per_page=1",</span>
+<span class="s">    "next":"http://localhost:3000/api/v1/users/1/followings?page%5Bnumber%5D=2&amp;page%5Bsize%5D=1&amp;per_page=1",</span>
+<span class="s">    "last":"http://localhost:3000/api/v1/users/1/followings?page%5Bnumber%5D=48&amp;page%5Bsize%5D=1&amp;per_page=1"</span>
+<span class="s">  },</span>
+<span class="s">  "meta":{  </span>
+<span class="s">    "current-page":1,</span>
+<span class="s">    "next-page":2,</span>
+<span class="s">    "prev-page":null,</span>
+<span class="s">    "total-pages":48,</span>
+<span class="s">    "total-count":48</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You can GET all followers of a user in <code class="prettyprint">/api/v1/users/{userId}/followings</code>.
+You can filter the records using a micro-API based on <a href="https://github.com/kollegorna/active_hash_relation">ActiveHashRelation gem</a>.</p>
+
+<h3 id="destroy">Destroy</h3>
+
+<p>Remove a follower, e.g. somebody that follows you</p>
+<pre class="highlight http"><code><span class="nf">DELETE</span> <span class="nn">/api/v1/users/1/followers/12</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"12",</span>
+<span class="s">    "type":"users",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "name":"Mckayla Okuneva DDS",</span>
+<span class="s">      "email":"example-11@railstutorial.org",</span>
+<span class="s">      "created-at":"2016-11-05T10:15:27Z",</span>
+<span class="s">      "microposts-count":0,</span>
+<span class="s">      "followers-count":1,</span>
+<span class="s">      "followings-count":1,</span>
+<span class="s">      "following-state":false,</span>
+<span class="s">      "follower-state":false</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "microposts":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/microposts?user_id=12"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followers":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/12/followers"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followings":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/12/followings"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>Here, user 1 removes follower user 12.</p>
+
+          <h1 id="followings">Followings</h1>
+
+<p>Followings is the users that a user follows.</p>
+
+<h2 id="list-followings">List Followings</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/users/1/followings</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "id":"2",</span>
+<span class="s">      "type":"users",</span>
+<span class="s">      "attributes":{  </span>
+<span class="s">        "name":"Lucio Luettgen",</span>
+<span class="s">        "email":"example-1@railstutorial.org",</span>
+<span class="s">        "created-at":"2016-11-05T10:15:26Z",</span>
+<span class="s">        "microposts-count":50,</span>
+<span class="s">        "followers-count":1,</span>
+<span class="s">        "followings-count":1,</span>
+<span class="s">        "following-state":false,</span>
+<span class="s">        "follower-state":false</span>
+<span class="s">      },</span>
+<span class="s">      "relationships":{  </span>
+<span class="s">        "microposts":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/microposts?user_id=2"</span>
+<span class="s">          }</span>
+<span class="s">        },</span>
+<span class="s">        "followers":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/2/followers"</span>
+<span class="s">          }</span>
+<span class="s">        },</span>
+<span class="s">        "followings":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/2/followings"</span>
+<span class="s">          }</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ],</span>
+<span class="s">  "links":{  </span>
+<span class="s">    "self":"http://localhost:3000/api/v1/users/1/followings?page%5Bnumber%5D=1&amp;page%5Bsize%5D=1&amp;per_page=1",</span>
+<span class="s">    "next":"http://localhost:3000/api/v1/users/1/followings?page%5Bnumber%5D=2&amp;page%5Bsize%5D=1&amp;per_page=1",</span>
+<span class="s">    "last":"http://localhost:3000/api/v1/users/1/followings?page%5Bnumber%5D=48&amp;page%5Bsize%5D=1&amp;per_page=1"</span>
+<span class="s">  },</span>
+<span class="s">  "meta":{  </span>
+<span class="s">    "current-page":1,</span>
+<span class="s">    "next-page":2,</span>
+<span class="s">    "prev-page":null,</span>
+<span class="s">    "total-pages":48,</span>
+<span class="s">    "total-count":48</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>You can GET all followings of a user in <code class="prettyprint">/api/v1/users/{userId}/followings</code>.
+You can filter the records using a micro-API based on <a href="https://github.com/kollegorna/active_hash_relation">ActiveHashRelation gem</a>.</p>
+
+<h3 id="create">Create</h3>
+
+<p>Create a following, e.g. follow another user</p>
+<pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/api/v1/users/1/followings/12</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"12",</span>
+<span class="s">    "type":"users",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "name":"Mckayla Okuneva DDS",</span>
+<span class="s">      "email":"example-11@railstutorial.org",</span>
+<span class="s">      "created-at":"2016-11-05T10:15:27Z",</span>
+<span class="s">      "microposts-count":0,</span>
+<span class="s">      "followers-count":1,</span>
+<span class="s">      "followings-count":1,</span>
+<span class="s">      "following-state":false,</span>
+<span class="s">      "follower-state":false</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "microposts":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/microposts?user_id=12"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followers":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/12/followers"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followings":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/12/followings"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>Here, user 1 starts following user 2.</p>
+
+<h3 id="destroy">Destroy</h3>
+
+<p>Delete a following, e.g. somebody that you follow</p>
+<pre class="highlight http"><code><span class="nf">DELETE</span> <span class="nn">/api/v1/users/1/followings/12</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":{  </span>
+<span class="s">    "id":"12",</span>
+<span class="s">    "type":"users",</span>
+<span class="s">    "attributes":{  </span>
+<span class="s">      "name":"Mckayla Okuneva DDS",</span>
+<span class="s">      "email":"example-11@railstutorial.org",</span>
+<span class="s">      "created-at":"2016-11-05T10:15:27Z",</span>
+<span class="s">      "microposts-count":0,</span>
+<span class="s">      "followers-count":1,</span>
+<span class="s">      "followings-count":1,</span>
+<span class="s">      "following-state":false,</span>
+<span class="s">      "follower-state":false</span>
+<span class="s">    },</span>
+<span class="s">    "relationships":{  </span>
+<span class="s">      "microposts":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/microposts?user_id=12"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followers":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/12/followers"</span>
+<span class="s">        }</span>
+<span class="s">      },</span>
+<span class="s">      "followings":{  </span>
+<span class="s">        "links":{  </span>
+<span class="s">          "related":"/api/v1/users/12/followings"</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>Here, user 1 unfollows user 2.</p>
+
+          <h1 id="feed">Feed</h1>
+
+<p>The feed of a user is a list of microposts of users she follows order by <code class="prettyprint">created_at</code> in a descending order.</p>
+
+<h2 id="show-feed">Show Feed</h2>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/api/v1/users/1/followings</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Micropost-Agent</span><span class="p">:</span> <span class="s">MyClient/1.0.0</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/vnd.api+json</span>
+</code></pre><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="s">{  </span>
+<span class="s">  "data":[  </span>
+<span class="s">    {  </span>
+<span class="s">      "id":"349",</span>
+<span class="s">      "type":"microposts",</span>
+<span class="s">      "attributes":{  </span>
+<span class="s">        "content":"test",</span>
+<span class="s">        "user-id":1,</span>
+<span class="s">        "created-at":"2016-11-19T18:56:55Z",</span>
+<span class="s">        "updated-at":"2016-11-19T18:56:55Z"</span>
+<span class="s">      },</span>
+<span class="s">      "relationships":{  </span>
+<span class="s">        "user":{  </span>
+<span class="s">          "links":{  </span>
+<span class="s">            "related":"/api/v1/users/1"</span>
+<span class="s">          }</span>
+<span class="s">        }</span>
+<span class="s">      }</span>
+<span class="s">    }</span>
+<span class="s">  ],</span>
+<span class="s">  "links":{  </span>
+<span class="s">    "self":"http://localhost:3000/api/v1/microposts?page%5Bnumber%5D=1\u0026page%5Bsize%5D=1\u0026per_page=1",</span>
+<span class="s">    "next":"http://localhost:3000/api/v1/microposts?page%5Bnumber%5D=2\u0026page%5Bsize%5D=1\u0026per_page=1",</span>
+<span class="s">    "last":"http://localhost:3000/api/v1/microposts?page%5Bnumber%5D=349\u0026page%5Bsize%5D=1\u0026per_page=1"</span>
+<span class="s">  },</span>
+<span class="s">  "meta":{  </span>
+<span class="s">    "current-page":1,</span>
+<span class="s">    "next-page":2,</span>
+<span class="s">    "prev-page":null,</span>
+<span class="s">    "total-pages":349,</span>
+<span class="s">    "total-count":349</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+</code></pre>
+<p>If you want to filter the microposts, use the <a href="#microposts">microposts</a> API.</p>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="http">http</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

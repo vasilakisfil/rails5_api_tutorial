@@ -29,7 +29,7 @@ class UserPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      return Guest.new(record, User) unless user
+      return Guest.new(scope, User) unless user
       return Admin.new(scope, User) if user.admin?
       return Regular.new(scope, User)
     end

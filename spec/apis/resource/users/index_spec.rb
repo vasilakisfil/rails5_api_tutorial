@@ -9,8 +9,8 @@ describe Api::V1::UsersController, '#index', type: :api do
         get api_v1_users_path, format: :json
       end
 
-      it_returns_status(401)
-      it_follows_json_schema('errors')
+      it_returns_status(200)
+      it_follows_json_schema('guest/users')
     end
 
     context 'when authenticated as a regular user' do

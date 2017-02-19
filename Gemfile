@@ -48,7 +48,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'pundit'
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
-gem 'active_hash_relation', path: '../active_hash_relation'
+gem 'active_hash_relation', '~> 1.4.0'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'flexible_permissions'
 gem 'rack-attack'
@@ -59,6 +59,6 @@ group :development, :test do
   gem 'rspec-api_helpers', '1.0.3'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'rspec-json_schema', :git => "git://github.com/blazed/rspec-json_schema.git", :branch => "feature/various_fixes"
+  gem 'rspec-json_schema', :git => "git://github.com/blazed/rspec-json_schema.git"
   gem 'pry-rails'
 end
