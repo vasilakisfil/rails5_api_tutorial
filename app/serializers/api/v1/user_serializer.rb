@@ -18,6 +18,11 @@ class Api::V1::UserSerializer < Api::V1::BaseSerializer
     ).exists?
   end
 
+  has_one :feed, serializer: Api::V1::MicropostSerializer do
+    include_data(false)
+    link(:related) {api_v1_user_feed_path(user_id: object.id)}
+  end
+
   has_many :microposts, serializer: Api::V1::MicropostSerializer do
     include_data(false)
     link(:related) {api_v1_microposts_path(user_id: object.id)}

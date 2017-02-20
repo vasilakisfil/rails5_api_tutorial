@@ -45,6 +45,10 @@ class UserPolicy < ApplicationPolicy
     end
 
     class Includes < self::Includes
+      def permitted
+        super + [:feed]
+      end
+
       def transformations
         {following: :followings}
       end
