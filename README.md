@@ -2,7 +2,7 @@
 
 _Note 1: If you are looking for the regular readme, it's [here](docs/README.md)._
 
-_Note 2: You can contribute to this tutorial by opening an issue or even sending a pull request?_
+_Note 2: You can contribute to this tutorial by opening an issue or even sending a pull request!_
 
 _Note 3: With the API I built, I went on and created the [same app](https://github.com/vasilakisfil/ember_on_rails5) in Ember._
 
