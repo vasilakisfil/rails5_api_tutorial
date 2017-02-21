@@ -1091,6 +1091,7 @@ Ideally we would like to give to the client an ORM on top of HTTP.
 ### Sparse fields, Granular permissions and Associations on demand
 We have already solved the problem of granular permissions by using [flexible_permissions](https://github.com/vasilakisfil/flexible-permissions) roles.
 Each role is allowed only specific attributes and associations.
+Also the same gems allows us to select only a subset of the allowed fields.
 
 JSONAPI already specified how a client can ask specific fields/associations of a resource.
 What we need to do now is to link the user's asked fields/associaions with role's
