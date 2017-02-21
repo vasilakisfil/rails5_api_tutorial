@@ -659,7 +659,7 @@ We allow access from anywhere, as a proper API.
 We can set restrictions on which clients are allowed to access the API by specifying the hostnames in origins.
 
 ## Tests
-Now let's go and write some tests! We will use Rack::Test helper methods as described
+Now let's go and write some tests! We will use `Rack::Test` helper methods as described
 [here](https://gist.github.com/alex-zige/5795358).
 When building APIs it's important to test that the path input -> controller -> model -> controller -> serializer ->
 output works ok.
@@ -984,7 +984,7 @@ When our resource includes a day, it's good to have it in UTC time and iso8601 f
 In general, we really don't want to include anywhere timezones in our API.
 If we clearly state that our datetimes are in utc and we only accept utc datetime, clients are responsible to convert
 the utc datetime to their local datetime (for instance, in Ember this is very easy using [moment](http://momentjs.com/)
-and [transforms](http://emberjs.com/api/data/classes/DS.Transform.html).
+and [transforms](http://emberjs.com/api/data/classes/DS.Transform.html)).
 
 ### Counters
 Another thing is that when building an API we should always think from the client perspective.
@@ -994,7 +994,7 @@ of microposts, followers or followings (users the user follows) that user has.
 At the moment, this can be achieved by sending an extra request to each one of those
 resources and check the `total_count` of the meta in the response.
 Having the client sending more requests is not good for the client, it's not good
-for us either sinece this means more requests to our API.
+for us either since this means more requests to our API.
 
 Instead we can add (cache) counters to each of the associations and return those
 along with the user information.
@@ -1040,7 +1040,7 @@ and whether this user follows you or not.
 In a regular Rails app we can do instantly (even from the view) the query, or use
 a helper and figure it out.
 Here we need to take a different approach instead.
-It will cost us much less if we if we give this information beforehand instead
+It will cost us much less if we give this information beforehand instead
 of creating a new endpoint just for that and letting the client do the request.
 
 We will add these states in the serializers as computed properties:
@@ -1067,7 +1067,7 @@ We should cache this information (but I leave it up to you how to do it :) )
 
 Even if you feel that this information is rarely used by clients, you should still
 have it in the user resource but instead of providing these resource attributes
-_by defaul_, you can provide them only when the user specifies a JSONAPI `fields`
+_by default_, you can provide them only when the user specifies a JSONAPI `fields`
 param.
 Which brings us to the next topic: help the client by building a modern API. Remember
 that you don't build the API for yourself but for the clients.
@@ -1105,7 +1105,7 @@ sending custom queries and ask for aggregated data (for instance the average num
 followers of a user).
 
 For those things we are going to use [active_hash_relation](https://github.com/kollegorna/active_hash_relation) gem which adds a
-whole API in our index method for free! Be sure to [check it out](https://github.com/kollegorna/active_hash_relation)!
+whole API in our index method for free! Be sure to [check it out](https://github.com/kollegorna/active_hash_relation#the-api)!
 It's as simple as adding 2 lines:
 
 ``` ruby
@@ -1126,8 +1126,7 @@ end
 Now, using ActiveHashRelation API we can ask for users that were created after a specific date or users with a specific
 email prefix etc. We can also ask for specific sorting and aggregation queries.
 
-_However, there might be some security implications for some columns (in terms of performance or security) so it's good
-to filter the params before using it!_
+_However, it's a good idea in terms of performance and security to first filter the permitted params_
 
 
 
