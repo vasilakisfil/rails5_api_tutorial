@@ -1,7 +1,9 @@
 # Build an API in your Rails app now! (Rails 5 version)
 
-_Note 1: If you are looking for the regular readme, it's [here](docs/READNE.md)._
+_Note 1: If you are looking for the regular readme, it's [here](docs/README.md)._
+
 _Note 2: You can contribute to this tutorial by opening an issue or even sending a pull request?_
+
 _Note 3: With the API I built, I went on and created the [same app](https://github.com/vasilakisfil/ember_on_rails5) in Ember._
 
 I will show how you can extend your Rails app and build an API without
@@ -21,7 +23,7 @@ However we will make our best to support most clients needs:
   * use hypermedia for related resources instead of embedding them
   * have in the same response data that otherwise would require many requests in the client
 
-By the way, there is a long discussion about what REST means. Is just JSONAPI REST as Joy Fielding's defined it?
+By the way, there is a long discussion about what REST means. Is just JSONAPI as REST as Joy Fielding's defined it?
 Definitely not. However, it's more resty than regular JSON response, plus it has a wide support in terms of libraries.
 
 Moving forward, let's add our first resource, let it be a user. But before adding the controller let's add the routes first:
@@ -212,7 +214,7 @@ Instead, when a user wants to sign in she sends an HTTP POST request with her us
 case it's the `sessions` endpoint) which sends back a token.
 This token is user's proof of who she is.
 In each API request, rails finds the user based on the token sent.
-If no user found with the received token the API should return a 401 error.
+If no user found with the received token, or no token is sent, the API should return a 401 (Unauthorized) error.
 
 Let's add the token to the user.
 
@@ -474,7 +476,7 @@ In our app we will have 3 roles:
 
 For that we will use [FlexiblePermissions](https://github.com/vasilakisfil/flexible-permissions) a gem that works
 on top of `Pundit`. Basically the idea is that apart from telling controller if this
-user is allowed to have access or not, you also embedd the type of access: which attributes
+user is allowed to have access or not, you also embed the type of access: which attributes
 the user has access. You can also specify the defaults (which is a subset of the permitted attributes)
 if the user is not requesting specific fields. So, first let's specify the permission classes for `User` roles:
 
@@ -513,7 +515,7 @@ end
 ```
 
 As you can see `Admin` role (when requesting `User(s)`) has access to everything, plus, the links attributes,
-which is a computed property defined inside the Serializer. W
+which is a computed property defined inside the Serializer.
 
 Then we have the `Regular` role (when requesting `User(s)`) which inherits from `Admin` but we chop some
 private attributes.
@@ -539,7 +541,7 @@ end
 That's the classic CRUD of a resource. As you can see, for user creation we set
 `Regular` permissions no matter what.
 For the rest actions though (here showing only `show` action), we alternate between roles depending on the
-user. Let's see you our controller becomes now:
+user. Let's see how our controller becomes now:
 
 ```ruby
 
@@ -638,7 +640,7 @@ and enable it in `config/application.rb`:
 
 [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) is a specification that "that enables many resources
 (e.g. fonts, JavaScript, etc.) on a web page to be requested from another domain outside the domain from which the
-resource originated".
+resource originated.
 Essentially it allows us to have loaded the javascript client in another domain from our API and allow the js to send
 AJAX requests to our API.
 
