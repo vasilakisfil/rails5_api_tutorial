@@ -88,7 +88,8 @@ class User < ApplicationRecord
   # Sends activation email.
   def send_activation_email(ember_url: false)
     if ember_url
-      UserMailer.ember_account_activation(self).deliver_now
+      activate
+      #UserMailer.ember_account_activation(self).deliver_now
     else
       UserMailer.account_activation(self).deliver_now
     end
