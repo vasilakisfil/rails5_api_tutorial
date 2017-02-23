@@ -71,7 +71,7 @@ end
 ```
 
 As you can see we inherit from `ActionController::API` instead of `ActionController::Base`.
-The former cuts down some features not needed making it a bit faster an less memory hungry :)
+The former cuts down some features not needed making it a bit faster and less memory hungry :)
 
 Now let's add the `users#show` action:
 
@@ -130,7 +130,7 @@ There is one more thing that needs to be fixed.
 If a client asks for a user that does not exist in our database, `find` will raise a `ActiveRecord::RecordNotFound`
 exception and Rails will return a 500 error.
 But what we actually want here is to return a 404 error.
-We can catch the exception in the `Api::V1::BaseController` and make rails return 404.
+We can catch the exception in the `Api::V1::BaseController` and make Rails return 404.
 Just add in `Api::V1::BaseController`:
 
 ``` ruby
@@ -730,7 +730,7 @@ What do we want to test?
 What we are actually doing here is that I re-implement the RSpecs methods [respond_to](https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers/respond-to-matcher)
 and rspec-rails' [be_valid](http://www.rubydoc.info/gems/rspec-rails/RSpec/Rails/Matchers#be_valid-instance_method)
 method at a higher level.
-However asserting each attribute of the API response to be equal with our initial
+However, asserting each attribute of the API response to be equal with our initial
 object takes too much time and space. And what if I change my serializer and use HAL or JSONAPI instead?
 
 Instead, we can use [rspec-api_helpers](https://github.com/kollegorna/rspec-api_helpers) which automate this process:
@@ -1034,7 +1034,7 @@ each time we need it.
 Ok let's thing from the client perspective again.
 Let's say that the client wants to retrieve a user, so it gets the user information
 along with the counters.
-However in most cases you will want to know whether you follow this user or not
+However, in most cases you will want to know whether you follow this user or not
 and whether this user follows you or not.
 
 In a regular Rails app we can do instantly (even from the view) the query, or use
@@ -1193,9 +1193,9 @@ rails app but in larger APIs we might want them in a separate repository because
 it generates css and html files which are also versioned and there is no point since
 they are generated with a bundler command.
 
-Create an app/docs/ directory and clone the slate repository there and delete
+Create an `app/docs/` directory and clone the slate repository there and delete
 the .git directory (we don't need slate revisions).
-In a app/docs/config.rb set the build directory to public folder:
+In a `app/docs/config.rb` set the build directory to public folder:
 
 ``` ruby
 set :build_dir, '../public/docs/'
