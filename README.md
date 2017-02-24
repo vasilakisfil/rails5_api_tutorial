@@ -668,7 +668,7 @@ Note that since Michael has already added some model tests we don't have to be p
 only API controllers.
 
 ``` ruby
-describe Api::V1::UsersController, type: :api
+describe Api::V1::UsersController, type: :api do
   context :show do
     before do
       create_and_sign_in_user
