@@ -625,7 +625,7 @@ class Rack::Attack
   redis = ENV['REDISTOGO_URL'] || 'localhost'
   Rack::Attack.cache.store = ActiveSupport::Cache::RedisStore.new(redis)
 
-  throttle('req/ip', :limit => 1000, :period => 10.minutes) do |req|
+  throttle('req/ip', limit: 1000, period: 10.minutes) do |req|
     req.ip if req.path.starts_with?('/api/v1')
   end
 end
@@ -650,7 +650,7 @@ For Rails all we have to do is to install the `rack-cors` gem and allow:
     config.middleware.insert_before 0, "Rack::Cors" do
       allow do
         origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :put, :patch, :delete, :options, :head]
+        resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
       end
     end
 ```
@@ -717,7 +717,7 @@ module AuthenticationHelper
 end
 
 RSpec.configure do |config|
-  config.include AuthenticationHelper, :type=>:api
+  config.include AuthenticationHelper, type: :api
 end
 ```
 
@@ -1006,9 +1006,9 @@ First we create a migration:
 ```ruby
 class AddCacheCounters < ActiveRecord::Migration[5.0]
   def change
-    add_column :users, :microposts_count, :integer, :null => false, :default => 0
-    add_column :users, :followers_count, :integer, :null => false, :default => 0
-    add_column :users, :followings_count, :integer, :null => false, :default => 0
+    add_column :users, :microposts_count, :integer, null: false, default: 0
+    add_column :users, :followers_count, :integer, null: false, default: 0
+    add_column :users, :followings_count, :integer, null: false, default: 0
   end
 end
 ```
