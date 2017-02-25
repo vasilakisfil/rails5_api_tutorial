@@ -682,7 +682,7 @@ describe Api::V1::UsersController, type: :api
     end
 
     it 'returns the data in the body' do
-      body = HashWithIndifferentAccess.new(MultiJson.load(last_response.body))
+      body = JSON.parse(last_response.body, symbolize_names: true)
       expect(body.dig(:data, :attributes, :name).to eql(@user.name)
       expect(body.dig(:data, :attributes, :email).to eql(@user.name)
       expect(body.dig(:data, :attributes, :admin).to eql(@user.admin)
