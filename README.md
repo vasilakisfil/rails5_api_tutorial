@@ -591,7 +591,8 @@ Pagination is necessary for 2 reasons.
 It adds some very basic hypermedia for the front-end client and it increases the performance since it renders only a
 fraction of the total resources.
 
-For pagination we will use [Kaminari](https://github.com/amatsuda/kaminari) and we only need to add 2 methods:
+For pagination we will use the same gem that Michael is already using: [will_paginate](https://github.com/mislav/will_paginate).
+we will only need to use it in the following 2 methods:
 
 ``` ruby
   def paginate(resource)
@@ -614,6 +615,8 @@ For pagination we will use [Kaminari](https://github.com/amatsuda/kaminari) and 
     }
   end
 ```
+
+I should note that you can also use [Kaminari](https://github.com/amatsuda/kaminari), they are almost identical.
 
 Rate limit is a good way to filter unwanted bots or users that abuse our API.
 It's implemented by [redis-throttle](https://github.com/andreareginato/redis-throttle)
