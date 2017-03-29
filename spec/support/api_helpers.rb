@@ -4,8 +4,8 @@ module ApiHelpers
     resource_attributes = hash.first.last
 
     return {
-      type: resource_key.to_s.pluralize,
       data: {
+        type: resource_key.to_s.pluralize,
         attributes: resource_attributes
       }
     }
