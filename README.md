@@ -145,6 +145,8 @@ A "Not found" in the body section is enough since the client can figure out the 
 
 _Tip: Exceptions in Ruby are quite slow. A faster way is to request the user from the db using find_by and render 404 if find_by returned a nil._
 
+**Important! [yuki24](https://github.com/yuki24) opened [an issue](https://github.com/vasilakisfil/rails5_api_tutorial/issues/15) to clarify that "rescue_from is possibly one of the worst Rails patterns of all time". Please take a look in [the issue](https://github.com/vasilakisfil/rails5_api_tutorial/issues/15) for more information until we have something better :)**
+
 If we now send a request `api/v1/users/1` we get the following json response:
 
 ``` http
