@@ -1,6 +1,6 @@
 module AuthenticationHelper
   def sign_in(user)
-    header('Authorization', "Token token=\"#{user.token}\"")
+    header('Authorization', %Q{Token token="#{user.token}", email="#{user.email}"})
   end
 
   def create_and_sign_in_user

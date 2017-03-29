@@ -27,14 +27,17 @@ class Api::V1::BaseController < ActionController::API
     end
 
     def authenticate_user
-      token, _ = ActionController::HttpAuthentication::Token.token_and_options(
+      token, options = ActionController::HttpAuthentication::Token.token_and_options(
         request
       )
 
-      user = User.find_by(token: token)
+      return nil unless token && options.is_a?(Hash)
 
-      if user
+      user = User.find_by(email: options['email'])
+      if user && ActiveSupport::SecurityUtils.secure_compare(user.token, token)
         @current_user = user
+      else
+        return nil
       end
     end
 
