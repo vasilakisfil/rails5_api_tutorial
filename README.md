@@ -410,25 +410,28 @@ Now let's add the `authenticate_user!` filter inside the `Api::V1::BaseControlle
 
 ``` ruby
   def authenticate_user!
-    token, _ = ActionController::HttpAuthentication::Token.token_and_options(
-      request
-    )
+      token, options = ActionController::HttpAuthentication::Token.token_and_options(
+        request
+      )
 
-    user = User.find_by(token: token)
+      return nil unless token && options.is_a?(Hash)
 
-    if user
-      @current_user = user
-    else
-      raise UnauthenticatedError
-    end
+      user = User.find_by(email: options['email'])
+      if user && ActiveSupport::SecurityUtils.secure_compare(user.token, token)
+        @current_user = user
+      else
+        return UnauthenticatedError
+      end
   end
 ```
 `ActionController::HttpAuthentication::Token` parses Authorization header which holds the token.
 Actually, an Authorization header looks like that:
 
 ``` http
-Authorization: Token token="f42f5ccee3689209e7ca8e4f9bd830e2"
+Authorization: Token email=myemail@email.com, token="f42f5ccee3689209e7ca8e4f9bd830e2"
 ```
+
+The email is needed to avoid timming attacks (more info [here](https://github.com/vasilakisfil/rails5_api_tutorial/issues/11)).
 
 Now that we have set the `current_user` it's time to move on to authorization.
 
