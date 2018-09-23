@@ -4,27 +4,42 @@ class Api::V1::MicropostsController < Api::V1::BaseController
   def index
     auth_microposts = policy_scope(@microposts)
 
-    render jsonapi: auth_microposts.collection,
-      each_serializer: Api::V1::MicropostSerializer,
-      fields: {micropost: auth_microposts.fields(params[:fields])},
-      meta: meta_attributes(auth_microposts.collection)
+    render({
+      json: SimpleAMS::Renderer::Collection.new(auth_microposts.collection, {
+        serializer: Api::V1::MicropostSerializer,
+        fields: auth_microposts.fields,
+        expose: {current_user: current_user},
+        collection: {
+          metas: meta_attributes(auth_microposts.collection)
+        }
+      }).to_json,
+    })
   end
 
   def show
     auth_micropost = authorize_with_permissions(@micropost)
 
-    render jsonapi: auth_micropost.record,
-      serializer: Api::V1::MicropostSerializer,
-      fields: {micropost: auth_micropost.fields}
+    render({
+      json: SimpleAMS::Renderer.new(auth_micropost.record, {
+        serializer: Api::V1::MicropostSerializer,
+        fields: auth_micropost.fields,
+        expose: {current_user: current_user}
+      }).to_json
+    })
   end
 
   def create
     auth_micropost = authorize_with_permissions(@micropost)
 
     if @micropost.save
-      render jsonapi: auth_micropost.record,
-        serializer: Api::V1::MicropostSerializer,
-        fields: {mircopost: auth_micropost.fields}, status: 201
+      render({
+        json: SimpleAMS::Renderer.new(auth_micropost.record, {
+          serializer: Api::V1::MicropostSerializer,
+          fields: auth_micropost.fields,
+          expose: {current_user: current_user}
+        }).to_json,
+        status: 201
+      })
     else
       invalid_resource!(@micropost.errors)
     end
@@ -34,9 +49,13 @@ class Api::V1::MicropostsController < Api::V1::BaseController
     auth_micropost = authorize_with_permissions(@micropost, :update?)
 
     if @micropost.update(update_params)
-      render jsonapi: auth_micropost.record,
-        serializer: Api::V1::MicropostSerializer,
-        micropost: {user: auth_micropost.fields}
+      render({
+        json: SimpleAMS::Renderer.new(auth_micropost.record, {
+          serializer: Api::V1::MicropostSerializer,
+          fields: auth_micropost.fields,
+          expose: {current_user: current_user}
+        }).to_json
+      })
     else
       invalid_resource!(@micropost.errors)
     end
@@ -47,9 +66,13 @@ class Api::V1::MicropostsController < Api::V1::BaseController
 
     @micropost.destroy!
 
-    render jsonapi: auth_micropost.record,
-      serializer: Api::V1::MicropostSerializer,
-      micropost: {user: auth_micropost.fields}
+    render({
+      json: SimpleAMS::Renderer.new(auth_micropost.record, {
+        serializer: Api::V1::MicropostSerializer,
+        fields: auth_micropost.fields,
+        expose: {current_user: current_user}
+      }).to_json
+    })
   end
 
   private

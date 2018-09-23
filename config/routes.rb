@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   #api
   namespace :api do
     namespace :v1 do
-      resources :sessions, only: [:create, :show]
+      resources :sessions, only: [:index, :create, :show]
 
       resources :users, only: [:index, :create, :show, :update, :destroy] do
         post :activate, on: :collection

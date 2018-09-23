@@ -4,13 +4,17 @@ class Api::V1::FollowingsController < Api::V1::BaseController
   def index
     auth_followings = policy_scope(@followings)
 
-    render jsonapi: auth_followings.collection,
-      each_serializer: Api::V1::UserSerializer,
-      fields: {users: auth_followings.fields(params[:fields]).concat(
-        [:microposts, :followers, :followings]
-      )},
-      include: [],
-      meta: meta_attributes(auth_followings.collection)
+    render({
+      json: SimpleAMS::Renderer::Collection.new(auth_followings.collection, {
+        serializer: Api::V1::UserSerializer,
+        fields: auth_followings.fields,
+        expose: {current_user: current_user},
+        include: [],
+        collection: {
+          metas: meta_attributes(auth_followings.collection)
+        }
+      }).to_json,
+    })
   end
 
   #follow a user
@@ -19,7 +23,12 @@ class Api::V1::FollowingsController < Api::V1::BaseController
       
     @relationship.save!
 
-    render jsonapi: auth_following.record, serializer: Api::V1::UserSerializer
+    render({
+      json: SimpleAMS::Renderer.new(auth_following.record, {
+        serializer: Api::V1::UserSerializer,
+        expose: {current_user: current_user}
+      }).to_json
+    })
   end
 
   #unfollow a user
@@ -28,7 +37,12 @@ class Api::V1::FollowingsController < Api::V1::BaseController
       
     @relationship.destroy!
 
-    render jsonapi: auth_following.record, serializer: Api::V1::UserSerializer
+    render({
+      json: SimpleAMS::Renderer.new(auth_following.record, {
+        serializer: Api::V1::UserSerializer,
+        expose: {current_user: current_user}
+      }).to_json
+    })
   end
 
   private

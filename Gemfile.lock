@@ -17,6 +17,11 @@ GIT
       jsonapi (~> 0.1.1.beta2)
       railties (>= 4.1, < 6)
 
+PATH
+  remote: ../SimpleAMS
+  specs:
+    simple_ams (0.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -455,6 +460,7 @@ DEPENDENCIES
   rspec-json_schema!
   rspec-rails (~> 3.5)
   sass-rails (= 5.0.5)
+  simple_ams!
   spring (= 1.7.2)
   spring-watcher-listen (= 2.0.0)
   sqlite3 (= 1.3.11)
@@ -468,4 +474,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.13.6
+   1.17.3

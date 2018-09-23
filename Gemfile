@@ -64,3 +64,5 @@ group :development, :test do
   gem 'rspec-json_schema', :git => "git://github.com/blazed/rspec-json_schema.git"
   gem 'pry-rails'
 end
+
+gem 'simple_ams', path: '../SimpleAMS'

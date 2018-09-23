@@ -4,13 +4,17 @@ class Api::V1::FollowersController < Api::V1::BaseController
   def index
     auth_followers = policy_scope(@followers)
 
-    render jsonapi: auth_followers.collection,
-      each_serializer: Api::V1::UserSerializer,
-      fields: {users: auth_followers.fields(params[:fields]).concat(
-        [:microposts, :followers, :followings]
-      )},
-      include: [],
-      meta: meta_attributes(auth_followers.collection)
+    render({
+      json: SimpleAMS::Renderer::Collection.new(auth_followers.collection, {
+        serializer: Api::V1::UserSerializer,
+        fields: auth_followers.fields,
+        expose: {current_user: current_user},
+        include: [],
+        collection: {
+          metas: meta_attributes(auth_followers.collection)
+        }
+      }).to_json,
+    })
   end
 
   #remove a follower
@@ -19,9 +23,12 @@ class Api::V1::FollowersController < Api::V1::BaseController
       
     @relationship.destroy!
 
-    render jsonapi: auth_follower.record, serializer: Api::V1::UserSerializer,
-      fields: { users: auth_follower.fields(params[:fields])},
-      include: []
+    render({
+      json: SimpleAMS::Renderer.new(auth_follower.record, {
+        serializer: Api::V1::UserSerializer,
+        expose: {current_user: current_user}
+      }).to_json
+    })
   end
 
   private

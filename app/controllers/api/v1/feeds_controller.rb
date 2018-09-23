@@ -4,10 +4,16 @@ class Api::V1::FeedsController < Api::V1::BaseController
   def show
     auth_microposts = policy_scope(@feed)
 
-    render jsonapi: auth_microposts.collection,
-      each_serializer: Api::V1::MicropostSerializer,
-      fields: {micropost: auth_microposts.fields(params[:fields])},
-      meta: meta_attributes(auth_microposts.collection)
+    render({
+      json: SimpleAMS::Renderer::Collection.new(auth_microposts.collection, {
+        serializer: Api::V1::MicropostSerializer,
+        fields: auth_microposts.fields,
+        expose: {current_user: current_user},
+        collection: {
+          metas: meta_attributes(auth_microposts.collection)
+        }
+      }).to_json,
+    })
   end
 
   private
